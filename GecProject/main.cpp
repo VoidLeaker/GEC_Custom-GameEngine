@@ -124,10 +124,6 @@ void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound)
     {
         mySound.play();
     }
-    if (ImGui::Button("Play Sound"))
-    {
-
-    }
 
 
     if (ImGui::SliderFloat("Move Slider", &circleRadius, 0.0f, 100.f))
