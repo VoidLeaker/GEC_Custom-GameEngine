@@ -10,6 +10,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include "AnimatedSprite.h"
 
 void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound);
 float myShape(0.5f);
@@ -42,16 +43,14 @@ int main()
     // Clock required by ImGui
     sf::Clock uiDeltaClock;
 
-    sf::Texture myTexture;
-    if (!myTexture.loadFromFile("biggboss.png"))
-        return 1;
-
-    sf::Sprite* mySprite = new sf::Sprite(myTexture);
+    sf::Clock updateClock;
 
     sf::SoundBuffer s;
     s.loadFromFile("shrek-oh-hello-there.mp3");
 
     sf::Sound mySound(s);
+
+	AnimatedSprite mysprite = AnimatedSprite("Data/Textures/Robot/Walk.png", 194, 258);
 
     while (window.isOpen())
     {
@@ -75,9 +74,12 @@ int main()
         // Clear the window
         window.clear();
 
+		mysprite.update(updateClock.restart());
+
+        mysprite.draw(&window);
+
         // Draw the shape
-        window.draw(*mySprite);
-        window.draw(shape);
+        //window.draw(shape);
 
         // UI needs drawing last
         ImGui::SFML::Render(window);
@@ -124,7 +126,6 @@ void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound)
     {
         mySound.play();
     }
-
 
     if (ImGui::SliderFloat("Move Slider", &circleRadius, 0.0f, 100.f))
     {
