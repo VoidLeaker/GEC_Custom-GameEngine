@@ -12,7 +12,7 @@
 #include <SFML/Audio.hpp>
 #include "AnimatedSprite.h"
 
-void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound);
+void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound, int FPS);
 float myShape(0.5f);
 float circleRadius(10.f);
 
@@ -46,9 +46,13 @@ int main()
     sf::Clock updateClock;
 
     sf::SoundBuffer s;
+    sf::Sound mySound(s);
     s.loadFromFile("shrek-oh-hello-there.mp3");
 
-    sf::Sound mySound(s);
+    int fpsCounter = 0;
+    int lastKnownFps = 0;
+    sf::Clock fpsClock;
+
 
 	AnimatedSprite mysprite = AnimatedSprite("Data/Textures/Robot/Walk.png", 194, 258);
 
@@ -68,8 +72,16 @@ int main()
         // ImGui must be updated each frame
         ImGui::SFML::Update(window, uiDeltaClock.restart());
 
+        if (fpsClock.getElapsedTime().asSeconds() >= 1)
+        {
+            lastKnownFps = fpsCounter;
+            fpsCounter = 0;
+            fpsClock.reset();
+        }
+        fpsCounter++;
+
         // The UI gets defined each time
-        DefineGUI(shape, circleRadius, mySound);
+        DefineGUI(shape, circleRadius, mySound, lastKnownFps);
 
         // Clear the window
         window.clear();
@@ -98,7 +110,7 @@ int main()
     Use IMGUI for a simple on screen GUI
     See: https://github.com/ocornut/imgui/wiki/
 */
-void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound)
+void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound, int FPS)
 {
     // Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
@@ -135,8 +147,9 @@ void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound)
     //   ImGui::Checkbox("Wireframe", &m_wireframe);	// A checkbox linked to a member variable
     // //  ImGui::Checkbox("Cull Face", &m_cullFace);
     // // ImGui::SliderFloat("Speed", &gAnimationSpeed, 0.01f, 0.3f);	// Slider from 0.0 to 1.0
+    //ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::Text("Stable FramePerSecond: %d", FPS);
 
     ImGui::End();
 }
