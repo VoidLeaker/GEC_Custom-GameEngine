@@ -12,7 +12,7 @@
 #include <SFML/Audio.hpp>
 #include "AnimatedSprite.h"
 
-void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound, int FPS);
+void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound, int FPS, AnimatedSprite& sprite);
 float myShape(0.5f);
 float circleRadius(10.f);
 
@@ -53,8 +53,10 @@ int main()
     int lastKnownFps = 0;
     sf::Clock fpsClock;
 
-
-	AnimatedSprite mysprite = AnimatedSprite("Assets/Textures/Robot/Walk.png", 194, 258);
+    AnimatedSprite mysprite("Assets/Textures/MaleZombie/idle_combined.png", 631, 521);
+	mysprite.addAnimation("default", "Assets/Textures/MaleZombie/idle_combined.png", 631, 521);
+	mysprite.addAnimation("attack", "Assets/Textures/MaleZombie/attack_combined.png", 631, 521);
+    mysprite.addAnimation("walk", "Assets/Textures/MaleZombie/walk_combined.png", 631, 521);
 
     while (window.isOpen())
     {
@@ -81,12 +83,12 @@ int main()
         fpsCounter++;
 
         // The UI gets defined each time
-        DefineGUI(shape, circleRadius, mySound, lastKnownFps);
+        DefineGUI(shape, circleRadius, mySound, lastKnownFps, mysprite);
 
         // Clear the window
         window.clear();
 
-		mysprite.update(updateClock.restart());
+        mysprite.update(updateClock.restart());
 
         mysprite.draw(&window);
 
@@ -110,7 +112,7 @@ int main()
     Use IMGUI for a simple on screen GUI
     See: https://github.com/ocornut/imgui/wiki/
 */
-void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound, int FPS)
+void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound, int FPS, AnimatedSprite& sprite)
 {
     // Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
@@ -142,6 +144,23 @@ void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound, 
     if (ImGui::SliderFloat("Move Slider", &circleRadius, 0.0f, 100.f))
     {
         shape.setRadius({ circleRadius });
+    }
+
+    ImGui::Separator();
+    ImGui::Text("Zombie Animations:");
+    
+	if (ImGui::Button("Idle"))
+	{
+		sprite.setCurrentAnimation("default");
+	}
+    if (ImGui::Button("Attack"))
+    {
+        sprite.setCurrentAnimation("attack");
+    }
+
+    if (ImGui::Button("Walk"))
+    {
+        sprite.setCurrentAnimation("walk");
     }
 
     //   ImGui::Checkbox("Wireframe", &m_wireframe);	// A checkbox linked to a member variable
