@@ -138,22 +138,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp" />
+    <ClCompile Include="src\Graphics\AnimationManager.cpp" />
+    <ClCompile Include="src\Game\Game.cpp" />
+    <ClCompile Include="src\Graphics\GraphicsManager.cpp" />
     <ClCompile Include="IMGUI\imgui-SFML.cpp" />
     <ClCompile Include="IMGUI\imgui.cpp" />
     <ClCompile Include="IMGUI\imgui_draw.cpp" />
     <ClCompile Include="IMGUI\imgui_tables.cpp" />
     <ClCompile Include="IMGUI\imgui_widgets.cpp" />
-    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="src\InputManager\InputManager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="RedirectCout.h" />
-    <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="src\Misc\RedirectCout.h" />
+    <ClCompile Include="src\Graphics\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
-    <ClInclude Include="ExternalHeaders.h" />
-    <ClInclude Include="InputManager.h" />
-    <ClInclude Include="IReceiveInput.h" />
-    <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="src\Graphics\AnimationManager.h" />
+    <ClInclude Include="src\Misc\ExternalHeaders.h" />
+    <ClInclude Include="src\Game\Game.h" />
+    <ClInclude Include="src\GameData\GameData.h" />
+    <ClInclude Include="src\Graphics\GraphicsManager.h" />
+    <ClInclude Include="src\InputManager\InputManager.h" />
+    <ClInclude Include="src\InputManager\IReceiveInput.h" />
+    <ClInclude Include="src\Graphics\TextureManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

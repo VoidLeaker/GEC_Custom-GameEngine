@@ -3,8 +3,8 @@
     Already has SFML linked and ImGui set up.
 */
 
-#include "ExternalHeaders.h"
-#include "RedirectCout.h"
+#include "../src/Misc/ExternalHeaders.h"
+#include "../src/Misc/RedirectCout.h"
 
 #include <iostream>
 #include <vector>
@@ -47,7 +47,7 @@ int main()
 
     sf::SoundBuffer s;
     sf::Sound mySound(s);
-    s.loadFromFile("shrek-oh-hello-there.mp3");
+    s.loadFromFile("Assets/Sounds/shrek-oh-hello-there.mp3");
 
     int fpsCounter = 0;
     int lastKnownFps = 0;
