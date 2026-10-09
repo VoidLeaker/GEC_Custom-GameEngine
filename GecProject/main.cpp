@@ -54,7 +54,7 @@ int main()
     sf::Clock fpsClock;
 
 
-	AnimatedSprite mysprite = AnimatedSprite("Data/Textures/Robot/Walk.png", 194, 258);
+	AnimatedSprite mysprite = AnimatedSprite("Assets/Textures/Robot/Walk.png", 194, 258);
 
     while (window.isOpen())
     {

@@ -1,0 +1,69 @@
+Martin Ruzzle Z. Imperial
+Milestone 1 Patch 0.0.0 - Patch 0.0.4 and October 9th 2026
+--------------------------------
+
+New Functionality
+-----------------
+
+< A list of additional functionality in this release aimed at the user e.g. "Control of the player craft via the XBox controller".>
+
+Code Additions
+--------------
+
+< A list of major additions e.g. classes, functions > 
+
+Tests
+-----
+
+< A list of tests you have done to prove the milestone requirements have been met e.g. a stress test may be done where you try extreme values for things. e.g. render 1,000 sprites all at the same time.>
+
+Notes
+-----
+
+<short notes on things left to do, issues and observations about possible future changes etc.>
+
+Milestone 2 <version> and <date>
+--------------------------------
+
+New Functionality
+-----------------
+
+< A list of additional functionality in this release aimed at the user e.g. "Control of the player craft via the XBox controller".>
+
+Code Additions
+--------------
+
+< A list of major additions e.g. classes, functions > 
+
+Tests
+-----
+
+< A list of tests you have done to prove the milestone requirements have been met e.g. a stress test may be done where you try extreme values for things. e.g. render 1,000 sprites all at the same time.>
+
+Notes
+-----
+
+<short notes on things left to do, issues and observations about possible future changes etc.>
+
+Milestone 3 <version> and <date>
+--------------------------------
+
+New Functionality
+-----------------
+
+< A list of additional functionality in this release aimed at the user e.g. "Control of the player craft via the XBox controller".>
+
+Code Additions
+--------------
+
+< A list of major additions e.g. classes, functions > 
+
+Tests
+-----
+
+< A list of tests you have done to prove the milestone requirements have been met e.g. a stress test may be done where you try extreme values for things. e.g. render 1,000 sprites all at the same time.>
+
+Notes
+-----
+
+<short notes on things left to do, issues and observations about possible future changes etc.>
