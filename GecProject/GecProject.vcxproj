@@ -138,6 +138,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp" />
+    <ClCompile Include="src\Entity\EntityManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="src\Graphics\AnimationManager.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
@@ -154,7 +155,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
+    <ClInclude Include="src\Entity\EntityManager.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="src\GameData\AnimatedSetData.h" />
     <ClInclude Include="src\Graphics\AnimationManager.h" />
     <ClInclude Include="src\Misc\ExternalHeaders.h" />
     <ClInclude Include="src\Game\Game.h" />

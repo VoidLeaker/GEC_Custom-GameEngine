@@ -14,7 +14,7 @@ public:
 
 	void addAnimation(std::string name, std::string fileLocation, int width, int height);
 
-	void setCurrentAnimation(std::string animationName);
+	void setCurrentAnimation(const std::string& animationName);
 
 	void setPosition(const sf::Vector2f& pos);
 	sf::Vector2f getPosition() const;

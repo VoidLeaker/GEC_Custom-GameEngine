@@ -31,9 +31,14 @@ void AnimatedSprite::addAnimation(std::string name, std::string fileLocation, in
 	}
 }
 
-void AnimatedSprite::setCurrentAnimation(std::string animationName)
+void AnimatedSprite::setCurrentAnimation(const std::string& animationName)
 {
 	if (m_textures.find(animationName) == m_textures.end())
+	{
+		return;
+	}
+
+	if (m_currentAnimationName == animationName)
 	{
 		return;
 	}
