@@ -16,11 +16,13 @@ public:
 
 	void setCurrentAnimation(std::string animationName);
 
+	void setPosition(const sf::Vector2f& pos);
+	sf::Vector2f getPosition() const;
+
 private:
 	void nextFrame();
 
 	sf::Sprite* m_sprite = nullptr;
-
 	std::map<std::string, sf::Texture*> m_textures;
 	std::string m_currentAnimationName = "";
 
@@ -29,6 +31,8 @@ private:
 
 	int m_width = 0;
 	int m_height = 0;
+
+	bool m_horizontal = false;
 
 	sf::Time m_timer{ sf::Time::Zero };
 };

@@ -46,6 +46,12 @@ void AnimatedSprite::setCurrentAnimation(std::string animationName)
 
 	sf::Vector2u texXY = m_textures[animationName]->getSize();
 	m_maxFrame = texXY.y / m_height;
+
+	if (m_sprite)
+	{
+		m_sprite->setTextureRect(sf::IntRect({ 0, m_currentFrame * m_height }, { m_width, m_height }));
+	}
+
 }
 
 void AnimatedSprite::update(sf::Time dt)
@@ -75,4 +81,17 @@ void AnimatedSprite::nextFrame()
 	}
 
 	m_sprite->setTextureRect(sf::IntRect({ 0, m_currentFrame * m_height }, { m_width, m_height }));
+}
+
+void AnimatedSprite::setPosition(const sf::Vector2f& pos)
+{
+	if (m_sprite)
+		m_sprite->setPosition(pos);
+}
+
+sf::Vector2f AnimatedSprite::getPosition() const
+{
+	if (m_sprite)
+		return m_sprite->getPosition();
+	return sf::Vector2f{ 0.f, 0.f };
 }
