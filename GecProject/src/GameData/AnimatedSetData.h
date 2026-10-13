@@ -3,7 +3,8 @@
 
 struct AnimatedSetData
 {
-	std::string name;
+	std::string textureName;
+	int numFrames{ 9 };
 	int frameWidth; int frameHeight;
-
+	bool isLoop = false;
 };
