@@ -1,4 +1,5 @@
 #pragma once
+
 #include "IReceiveInput.h"
 #include <vector>
 
