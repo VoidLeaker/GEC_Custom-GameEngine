@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameData\CollisionsData.cpp" />
     <ClCompile Include="src\Entities\EntityManager.cpp" />
     <ClCompile Include="src\Entities\Player\Player.cpp" />
     <ClCompile Include="src\Graphics\AnimationManager.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="src\Graphics\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameData\CollisionsData.h" />
     <ClInclude Include="src\Entities\EntityManager.h" />
     <ClInclude Include="src\Entities\Player\Player.h" />
     <ClInclude Include="src\GameData\AnimatedSetData.h" />
