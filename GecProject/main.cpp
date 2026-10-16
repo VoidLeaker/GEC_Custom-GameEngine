@@ -5,17 +5,14 @@
 
 #include "../src/Misc/ExternalHeaders.h"
 #include "../src/Misc/RedirectCout.h"
-
 #include <iostream>
-#include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Player.h"
 #include "src/InputManager/InputManager.h"
+#include "src/Graphics/GraphicsManager.h"
 
-void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound, int FPS);
-float myShape(0.5f);
-float circleRadius(10.f);
+void DefineGUI(sf::Sound& mySound, int FPS);
 
 int main()
 {
@@ -37,13 +34,8 @@ int main()
     if (!ImGui::SFML::Init(window))
         return -1;
 
-    // Create a simple shape to draw
-    sf::CircleShape shape(circleRadius);
-    shape.setFillColor(sf::Color::Blue);
-
     // Clock required by ImGui
     sf::Clock uiDeltaClock;
-
     sf::Clock updateClock;
 
     sf::SoundBuffer s;
@@ -53,11 +45,6 @@ int main()
     int fpsCounter = 0;
     int lastKnownFps = 0;
     sf::Clock fpsClock;
-
-    //AnimatedSprite mysprite("Assets/Textures/MaleZombie/idle_combined.png", 631, 521);
-	//mysprite.addAnimation("default", "Assets/Textures/MaleZombie/idle_combined.png", 631, 521);
-	//mysprite.addAnimation("attack", "Assets/Textures/MaleZombie/attack_combined.png", 631, 521);
-    //mysprite.addAnimation("walk", "Assets/Textures/MaleZombie/walk_combined.png", 631, 521);
 
     Player player;
 
@@ -86,25 +73,24 @@ int main()
         fpsCounter++;
 
         // The UI gets defined each time
-        DefineGUI(shape, circleRadius, mySound, lastKnownFps);
+        DefineGUI(mySound, lastKnownFps);
 
         INPUT_MAN.Update();
 
         sf::Time dt = updateClock.restart();
 
-        player.update(dt);
+        player.update(dt.asSeconds());
+
+        // Update graphics animations
+        GraphicsManager::GetInstance().update(dt.asSeconds());
 
         // Clear the window
         window.clear();
 
-        player.draw(window);
+        player.draw();
 
-        //mysprite.update(updateClock.restart());
-
-        //mysprite.draw(&window);
-
-        // Draw the shape
-        //window.draw(shape);
+        // Draw all sprites managed by GraphicsManager
+        GraphicsManager::GetInstance().draw(window);
 
         // UI needs drawing last
         ImGui::SFML::Render(window);
@@ -123,7 +109,7 @@ int main()
     Use IMGUI for a simple on screen GUI
     See: https://github.com/ocornut/imgui/wiki/
 */
-void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound, int FPS)
+void DefineGUI(sf::Sound& mySound, int FPS)
 {
     // Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
@@ -134,45 +120,12 @@ void DefineGUI(sf::CircleShape& shape, float& circleRadius, sf::Sound& mySound, 
 
     ImGui::Button("GO BUY BOOMSTICK NOW");			// Buttons return true when clicked (most widgets return true when edited/activated)
 
-    //if (ImGui::Button("Blue"))
-    //{
-    //    shape.setFillColor(sf::Color::Blue);
-    //}
-    //if (ImGui::Button("Red"))
-    //{
-    //    shape.setFillColor(sf::Color::Red);
-    //}
-    //if (ImGui::Button("Green"))
-    //{
-    //    shape.setFillColor(sf::Color::Green);
-    //}
-
     if (ImGui::Button("Play Shrek Sound"))
     {
         mySound.play();
     }
 
-    //if (ImGui::SliderFloat("Move Slider", &circleRadius, 0.0f, 100.f))
-    //{
-    //    shape.setRadius({ circleRadius });
-    //}
-
     ImGui::Separator();
- //   ImGui::Text("Zombie Animations:");
- //   
-	//if (ImGui::Button("Idle"))
-	//{
-	//	sprite.setCurrentAnimation("default");
-	//}
- //   if (ImGui::Button("Attack"))
- //   {
- //       sprite.setCurrentAnimation("attack");
- //   }
-
- //   if (ImGui::Button("Walk"))
- //   {
- //       sprite.setCurrentAnimation("walk");
- //   }
 
     //   ImGui::Checkbox("Wireframe", &m_wireframe);	// A checkbox linked to a member variable
     // //  ImGui::Checkbox("Cull Face", &m_cullFace);
