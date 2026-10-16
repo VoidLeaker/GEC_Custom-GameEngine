@@ -13,8 +13,6 @@
 #include "src/Graphics/GraphicsManager.h"
 
 void DefineGUI(sf::Sound& mySound, int FPS);
-float myShape(0.5f);
-float circleRadius(10.f);
 
 int main()
 {
