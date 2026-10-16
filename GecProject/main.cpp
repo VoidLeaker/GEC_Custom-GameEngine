@@ -8,7 +8,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "Player.h"
+#include "src/Entities/Player/Player.h"
 #include "src/InputManager/InputManager.h"
 #include "src/Graphics/GraphicsManager.h"
 

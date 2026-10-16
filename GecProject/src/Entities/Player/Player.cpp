@@ -1,7 +1,7 @@
 #include "Player.h"
-#include "src/InputManager/InputManager.h"
-#include "src/Graphics/GraphicsManager.h"
-#include "src/GameData/AnimatedSetData.h"
+#include "../src/InputManager/InputManager.h"
+#include "../src/Graphics/GraphicsManager.h"
+#include "../src/GameData/AnimatedSetData.h"
 
 Player::Player()
 {

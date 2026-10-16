@@ -1,7 +1,7 @@
 #pragma once
 
-#include "src/InputManager/IReceiveInput.h"
-#include "src/Graphics/GraphicsManager.h"
+#include "../src/InputManager/IReceiveInput.h"
+#include "../src/Graphics/GraphicsManager.h"
 #include <string>
 
 class Player : public IReceiveInput
