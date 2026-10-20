@@ -41,7 +41,7 @@ int main()
     sf::SoundBuffer s;
     sf::Sound mySound(s);
     s.loadFromFile("Assets/Sounds/shrek-oh-hello-there.mp3");
-
+    
     int fpsCounter = 0;
     int lastKnownFps = 0;
     sf::Clock fpsClock;
