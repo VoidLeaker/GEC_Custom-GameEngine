@@ -86,7 +86,6 @@ int main()
 
         // Clear the window
         window.clear();
-
         player.draw();
 
         // Draw all sprites managed by GraphicsManager
@@ -130,7 +129,6 @@ void DefineGUI(sf::Sound& mySound, int FPS)
     //   ImGui::Checkbox("Wireframe", &m_wireframe);	// A checkbox linked to a member variable
     // //  ImGui::Checkbox("Cull Face", &m_cullFace);
     // // ImGui::SliderFloat("Speed", &gAnimationSpeed, 0.01f, 0.3f);	// Slider from 0.0 to 1.0
-    //ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
     ImGui::Text("Stable FramePerSecond: %d", FPS);
 
