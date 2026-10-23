@@ -46,7 +46,7 @@ New Functionality
 Code Additions
 --------------
 
-- Added inputs to the player using the observer pattern
+- Added inputs to the player by using the observer pattern
 	- Add a listener to decoupled our code, so it'll not care if the input is receiving by a player, npc, etc.
 
 - Changed the sprite from zombie to SL_Knight sprite due to hitbox calculation
