@@ -128,6 +128,22 @@ void GraphicsManager::setPosition(SpriteId id, Vec2 pos)
     it->second.sprite.setPosition(sf::Vector2f{ pos.x, pos.y });
 }
 
+void GraphicsManager::setFlipped(SpriteId id, bool flipped)
+{
+    if (!privData)
+        return;
+
+    auto it = privData->instances.find(id);
+    if (it == privData->instances.end())
+        return;
+
+    auto& inst = it->second;
+    float width = static_cast<float>(inst.sprite.getTextureRect().size.x);
+
+    inst.sprite.setOrigin(sf::Vector2f{ flipped ? width : 0.f, 0.f });
+    inst.sprite.setScale(sf::Vector2f{ flipped ? -1.f : 1.f, 1.f });
+}
+
 void GraphicsManager::setAnimation(SpriteId id, const std::string& animName)
 {
     if (!privData)

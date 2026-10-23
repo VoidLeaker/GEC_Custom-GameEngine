@@ -25,11 +25,15 @@ public:
 
     bool loadTexture(const std::string& textureName, const std::string& filename);
     bool addAnimationSet(const std::string& animName, const AnimatedSetData& data);
+
     SpriteId createSprite(const std::string& initialAnim);
     void destroySprite(SpriteId id);
     bool attachAnimationToSprite(SpriteId id, const std::string& animName);
+    
     void setPosition(SpriteId id, Vec2 pos);
+    void setFlipped(SpriteId id, bool flipped);
     void setAnimation(SpriteId id, const std::string& animName);
+    
     void update(float dtSeconds);
     void draw(sf::RenderWindow& window);
 
