@@ -1,49 +1,87 @@
 Martin Ruzzle Z. Imperial
-Milestone 1 Patch 0.0.0 - Patch 0.0.4 and October 9th 2026
+Milestone 1 Patch 0.0.0 - Patch 0.0.6 and October 9th 2026
 --------------------------------
 
 New Functionality
 -----------------
 
-< A list of additional functionality in this release aimed at the user e.g. "Control of the player craft via the XBox controller".>
+- Can create a custom animated sprite which has a texture, number of frames, sprite width and height, and a time between frames (speed)
+- This sprite allows the first frame to be set, as well as having a function to update the intRect based on which sprite/frame to display
 
 Code Additions
 --------------
 
-< A list of major additions e.g. classes, functions > 
+- Calculating the FPS over a second, and then displaying this through the ImGUI
+- Added multiple buttons to support the multiple animation sets, so when pressing the buttons changes different animations:
+	- Default animation is idle
+	- Attack animation is attack
+	- Walk animation is walk
 
 Tests
 -----
 
-< A list of tests you have done to prove the milestone requirements have been met e.g. a stress test may be done where you try extreme values for things. e.g. render 1,000 sprites all at the same time.>
+- Tested the sprite with a number of textures and animations
+  - Error: The dead animation is clipping with the hands.
+  - Fixes: Removed the dead animation as I already supported multiple animation sets.
 
 Notes
 -----
 
-<short notes on things left to do, issues and observations about possible future changes etc.>
+- Need to encapsulate all the graphics logic within its own graphics class (e.g., TextureManager, AnimationManager)
+- Need to add inputs soon for my player class
 
-Milestone 2 <version> and <date>
+Milestone 2 Patch 0.0.7 - Patch 0.1.0 and October 23rd 2026
 --------------------------------
 
 New Functionality
 -----------------
 
-< A list of additional functionality in this release aimed at the user e.g. "Control of the player craft via the XBox controller".>
+- Collision detection through the collision data class by using rectangle shape
+- Created a Black-box design to encapsulate all our graphic logic, not knowing the functionality:
+	- Texture manager: It handles all textures to load from the file
+	- Animation manager: It handles all animation set for the sprites
+	- Graphic manager: It handles all graphic related such as rendering the player and playing the animation
+	- All managers above are using singleton patterns.
 
 Code Additions
 --------------
 
-< A list of major additions e.g. classes, functions > 
+- Added inputs to the player using the observer pattern
+	- Add a listener to decoupled our code, so it'll not care if the input is receiving by a player, npc, etc.
+
+- Changed the sprite from zombie to SL_Knight sprite due to hitbox calculation
+	- Works better as I have an info about its sprite box (128x64)
+
+- Organised my project by having its own source folders to split into different category
+	- This required me to fix all my include links for my project to work
+
+- Removed AnimatedSprite files as I converted that into Black-Box design
+- Removed some redundant functions in main.cpp file
+- Removed some redundant header inclusions across various files
+
 
 Tests
 -----
 
-< A list of tests you have done to prove the milestone requirements have been met e.g. a stress test may be done where you try extreme values for things. e.g. render 1,000 sprites all at the same time.>
+- Added debug rectangle representing the collision hitbox and message - ensuring the collision rectangle is accurate
+- Tested player movement in all directions: Zombie
+	- All animation loops are working except attack
+		- This was when the mouse input was hold instead of one tap, when holding animation loop for attack the sprite itself disappear indicating as a bug
+		- However, I planned to changed my sprite for a while so I keep it till I find a new sprite
+- Tested player movement in all directions: SL_Knight
+	- All animation loops are working - no bugs were found and mouse input was changed to one-tap (playing all the sprite animation)
 
 Notes
 -----
 
-<short notes on things left to do, issues and observations about possible future changes etc.>
+- Improve my player movement
+- Add collisions which inhibit movement
+- Need to add other entities such as enemies and arrows with its own entity class
+	- Ensuring all of them are 128 x 64 size
+- Need to add consistent window height and width especially if the users have their own different monitor size and resolution
+- Would removed some texture folders in near future
+- Will encapsulate window and ImGui into the graphic system soon
+- Will move all my simulations into the game files
 
 Milestone 3 <version> and <date>
 --------------------------------
