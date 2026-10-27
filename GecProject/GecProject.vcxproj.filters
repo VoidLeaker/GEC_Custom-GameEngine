@@ -63,6 +63,9 @@
     <ClCompile Include="src\GameData\CollisionsData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Entities\Enemy\Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Misc\ExternalHeaders.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GameData\CollisionsData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\Enemy\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
