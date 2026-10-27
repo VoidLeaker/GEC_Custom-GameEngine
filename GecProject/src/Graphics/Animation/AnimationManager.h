@@ -1,5 +1,5 @@
 #pragma once
-#include "../GameData/AnimatedSetData.h"
+#include "../src/GameData/AnimatedSetData.h"
 #include <string>
 #include <unordered_map>
 #include <memory>

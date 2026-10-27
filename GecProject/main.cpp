@@ -8,6 +8,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "src/Entities/Player/Player.h"
+#include "src/Entities/Enemy/Enemy.h"
 #include "src/InputManager/InputManager.h"
 #include "src/Graphics/GraphicsManager.h"
 
@@ -42,6 +43,7 @@ int main()
     sf::Clock fpsClock;
 
     Player player;
+	Enemy enemy;
 
     // Walls: x, y, width, height
     std::vector<CollisionsData> walls;
@@ -87,6 +89,7 @@ int main()
         // Clear the window
         window.clear();
         player.draw();
+        enemy.draw();
 
         // Draw all sprites managed by GraphicsManager
         GraphicsManager::GetInstance().draw(window);
@@ -98,18 +101,6 @@ int main()
             r.setPosition({ w.m_posX, w.m_posY });
             r.setFillColor(sf::Color(150, 150, 150));
             window.draw(r);
-        }
-
-        // Debug: draw player body hitbox (red = hitting wall, green = free)
-        {
-            CollisionsData hb = player.getCurrentHitbox();
-            sf::Color c = player.isHittingWall() ? sf::Color::Red : sf::Color::Green;
-            sf::RectangleShape box({ hb.m_width, hb.m_height });
-            box.setPosition({ hb.m_posX, hb.m_posY });
-            box.setFillColor(sf::Color::Transparent);
-            box.setOutlineColor(c);
-            box.setOutlineThickness(1.f);
-            window.draw(box);
         }
 
         // UI needs drawing last
