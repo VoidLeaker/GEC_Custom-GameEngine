@@ -101,6 +101,16 @@ void Player::handleInput(InputAction action)
     }
 }
 
+void Player::setPosition(const GraphicsManager::Vec2& pos)
+{
+    m_position = pos;
+}
+
+GraphicsManager::Vec2 Player::getPosition() const
+{
+    return m_position;
+}
+
 CollisionsData Player::getHitbox(float x, float y) const
 {
     constexpr float offsetX = 48.f;

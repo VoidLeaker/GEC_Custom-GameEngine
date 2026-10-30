@@ -1,11 +1,11 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include "../src/Entities/Player/Player.h"
-#include "../src/Entities/Enemy/Enemy.h"
-#include "../src/InputManager/InputManager.h"
-#include "../src/Graphics/GraphicsManager.h"
-#include "../src/GameData/CollisionsData.h"
+#include "../Entities/Player/Player.h"
+#include "../Entities/Enemy/Enemy.h"
+#include "../InputManager/InputManager.h"
+#include "../Graphics/GraphicsManager.h"
+#include "../GameData/CollisionsData.h"
 
 class Game
 {

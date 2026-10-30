@@ -10,7 +10,7 @@ public:
 	Enemy();
 	~Enemy();
 
-	void update(float dtSeconds);
+	void update(float dtSeconds, const GraphicsManager::Vec2& playerPosition);
 	void draw() {}
 
 	void setPosition(const GraphicsManager::Vec2& pos);
