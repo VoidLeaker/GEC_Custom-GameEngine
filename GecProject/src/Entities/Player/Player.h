@@ -37,10 +37,7 @@ private:
     
     float m_speed = 100.f;
 
-    bool m_attacking = false;
     bool m_mouseHeld = false;
-    float m_attackTimer = 0.f;
-    float m_attackDuration = 0.48f;
 
     bool m_facingLeft = false;
     std::string m_currentAnimation = "idle";

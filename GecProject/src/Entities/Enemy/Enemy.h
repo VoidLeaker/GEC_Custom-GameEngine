@@ -10,7 +10,7 @@ public:
 	Enemy();
 	~Enemy();
 
-	void update(float dtSeconds, const GraphicsManager::Vec2& playerPosition);
+	void update(float dtSeconds, const GraphicsManager::Vec2& playerPosition, const std::vector<CollisionsData>& blockingHitboxes);
 	void draw() {}
 
 	void setPosition(const GraphicsManager::Vec2& pos);
@@ -20,6 +20,7 @@ public:
 	CollisionsData getCurrentHitbox() const { return getHitbox(m_position.x, m_position.y); }
 
 private:
+	bool isBlocked(float x, float y, const std::vector<CollisionsData>& blockingHitboxes) const;
 
 	const std::vector<CollisionsData>* m_walls = nullptr;
 

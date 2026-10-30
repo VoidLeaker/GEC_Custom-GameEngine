@@ -42,6 +42,17 @@ Enemy::~Enemy()
         GraphicsManager::GetInstance().destroySprite(m_spriteId);
 }
 
+void Enemy::setPosition(const GraphicsManager::Vec2& pos)
+{
+    m_position = pos;
+    GraphicsManager::GetInstance().setPosition(m_spriteId, m_position);
+}
+
+GraphicsManager::Vec2 Enemy::getPosition() const
+{
+    return m_position;
+}
+
 CollisionsData Enemy::getHitbox(float x, float y) const
 {
     constexpr float offsetX = 48.f;
@@ -51,8 +62,22 @@ CollisionsData Enemy::getHitbox(float x, float y) const
     return CollisionsData(x + offsetX, y + offsetY, width, height);
 }
 
+bool Enemy::isBlocked(float x, float y, const std::vector<CollisionsData>& blockingHitboxes) const
+{
+    const CollisionsData hitbox = getHitbox(x, y);
+    for (const auto& otherHitbox : blockingHitboxes)
+    {
+        if (hitbox.intersection(otherHitbox))
+        {
+            return true;
+        }
+    }
 
-void Enemy::update(float dtSeconds, const GraphicsManager::Vec2& playerPosition)
+    return false;
+}
+
+
+void Enemy::update(float dtSeconds, const GraphicsManager::Vec2& playerPosition, const std::vector<CollisionsData>& blockingHitboxes)
 {
     auto& gm = GraphicsManager::GetInstance();
 
@@ -79,8 +104,17 @@ void Enemy::update(float dtSeconds, const GraphicsManager::Vec2& playerPosition)
         m_velocity = GraphicsManager::Vec2{ 0.f, 0.f };
     }
 
-    m_position.x += m_velocity.x * dtSeconds;
-    m_position.y += m_velocity.y * dtSeconds;
+    const float newX = m_position.x + m_velocity.x * dtSeconds;
+    if (!isBlocked(newX, m_position.y, blockingHitboxes))
+    {
+        m_position.x = newX;
+    }
+
+    const float newY = m_position.y + m_velocity.y * dtSeconds;
+    if (!isBlocked(m_position.x, newY, blockingHitboxes))
+    {
+        m_position.y = newY;
+    }
 
     std::string desiredAnimation = "idle";
 

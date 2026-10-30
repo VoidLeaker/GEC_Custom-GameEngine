@@ -43,7 +43,10 @@ void Game::run()
 	sf::Clock fpsClock;
 
 	Player player;
-	Enemy enemy;
+	Enemy enemyA;
+	Enemy enemyB;
+	enemyA.setPosition({ 300.f, 300.f });
+	enemyB.setPosition({ 500.f, 120.f });
 
 	sf::Texture backgroundTexture;
 	std::unique_ptr<sf::Sprite> backgroundSprite;
@@ -97,7 +100,8 @@ void Game::run()
 		sf::Time dt = updateClock.restart();
 
 		player.update(dt.asSeconds());
-		enemy.update(dt.asSeconds(), player.getPosition());
+		enemyA.update(dt.asSeconds(), player.getPosition(), { enemyB.getCurrentHitbox() });
+		enemyB.update(dt.asSeconds(), player.getPosition(), { enemyA.getCurrentHitbox() });
 		GraphicsManager::GetInstance().update(dt.asSeconds());
 
 		window.clear();
@@ -106,7 +110,8 @@ void Game::run()
 			window.draw(*backgroundSprite);
 		}
 		player.draw();
-		enemy.draw();
+		enemyA.draw();
+		enemyB.draw();
 
 		GraphicsManager::GetInstance().draw(window);
 

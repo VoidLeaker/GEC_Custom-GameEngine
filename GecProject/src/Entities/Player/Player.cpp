@@ -10,8 +10,6 @@ Player::Player()
     auto& gm = GraphicsManager::GetInstance();
 
     gm.loadTexture("knight_idle", "Assets/Textures/SL_Knight/idle_combined.png");
-    gm.loadTexture("knight_attack_right", "Assets/Textures/SL_Knight/attack_right_combined.png");
-    gm.loadTexture("knight_attack_left", "Assets/Textures/SL_Knight/attack_left_combined.png");
     gm.loadTexture("knight_walk", "Assets/Textures/SL_Knight/run_combined.png");
 
     AnimatedSetData idleSet;
@@ -23,18 +21,6 @@ Player::Player()
     idleSet.isHorizontal = false;
     idleSet.isLoop = true;
 
-    AnimatedSetData attackSet;
-    attackSet.textureName = "knight_attack_right";
-    attackSet.numFrames = 6;
-    attackSet.frameWidth = 128;
-    attackSet.frameHeight = 64;
-    attackSet.frameSeconds = 0.08f;
-    attackSet.isHorizontal = false;
-    attackSet.isLoop = false;
-
-    AnimatedSetData attackLeftSet = attackSet;
-    attackLeftSet.textureName = "knight_attack_left";
-
     AnimatedSetData walkSet;
     walkSet.textureName = "knight_walk";
     walkSet.numFrames = 8;
@@ -45,8 +31,6 @@ Player::Player()
     walkSet.isLoop = true;
 
     gm.addAnimationSet("idle", idleSet);
-    gm.addAnimationSet("attack", attackSet);
-    gm.addAnimationSet("attackLeft", attackLeftSet);
     gm.addAnimationSet("walk", walkSet);
 
     m_spriteId = gm.createSprite("idle");
@@ -63,18 +47,6 @@ Player::~Player()
 
 void Player::handleInput(InputAction action)
 {
-    if (action == InputAction::eLeftMouseClick)
-    {
-        if (!m_mouseHeld && !m_attacking)
-        {
-            m_attacking = true;
-            m_attackTimer = m_attackDuration;
-        }
-        m_mouseHeld = true;
-        return;
-    }
-    m_mouseHeld = false;
-
     switch (action)
     {
     case InputAction::eMoveUp:
@@ -136,12 +108,6 @@ bool Player::isBlocked(float x, float y) const
 
 void Player::update(float dtSeconds)
 {
-    if (m_attacking)
-    {
-        m_attackTimer -= dtSeconds;
-        if (m_attackTimer <= 0.f)
-            m_attacking = false;
-    }
 
     m_hitWall = false;
 
@@ -167,11 +133,8 @@ void Player::update(float dtSeconds)
     auto& gm = GraphicsManager::GetInstance();
 
     std::string desiredAnimation = "idle";
-    if (m_attacking)
-    {
-        desiredAnimation = m_facingLeft ? "attackLeft" : "attack";
-    }
-    else if (m_velocity.x != 0.f || m_velocity.y != 0.f)
+
+    if (m_velocity.x != 0.f || m_velocity.y != 0.f)
     {
         desiredAnimation = "walk";
     }
@@ -182,6 +145,6 @@ void Player::update(float dtSeconds)
         gm.setAnimation(m_spriteId, desiredAnimation);
     }
 
-    gm.setFlipped(m_spriteId, m_facingLeft && !m_attacking);
+    gm.setFlipped(m_spriteId, m_facingLeft);
     gm.setPosition(m_spriteId, m_position);
 }
