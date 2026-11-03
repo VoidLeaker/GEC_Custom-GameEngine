@@ -69,6 +69,9 @@
     <ClCompile Include="src\Entities\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Entities\Projectiles\BaseProjectiles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Misc\ExternalHeaders.h">
@@ -80,7 +83,7 @@
     <ClInclude Include="src\InputManager\InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\InputManager\IReceiveInput.h">
+    <ClInclude Include="src\InputManager\InputListener\IReceiveInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\GraphicsManager.h">
@@ -101,7 +104,7 @@
     <ClInclude Include="src\Entities\EntityManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameData\AnimatedSetData.h">
+    <ClInclude Include="src\GameData\SpritesRelated\AnimatedSetData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GameData\CollisionsData.h">
@@ -114,6 +117,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GameData\EntityComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\Projectiles\BaseProjectiles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameData\ResolutionAdjuster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

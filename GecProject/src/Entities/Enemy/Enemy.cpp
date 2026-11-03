@@ -1,39 +1,28 @@
 #include "Enemy.h"
 #include "../src/Graphics/GraphicsManager.h"
-#include "../src/GameData/AnimatedSetData.h"
+#include "../src/GameData/SpritesRelated/AnimatedSetData.h"
 #include <cmath>
 
 Enemy::Enemy()
 {
 	auto& gm = GraphicsManager::GetInstance();
 
-    gm.loadTexture("knight_idle", "Assets/Textures/SL_Knight/idle_combined.png");
-    gm.loadTexture("knight_walk", "Assets/Textures/SL_Knight/run_combined.png");
-
-    AnimatedSetData idleSet;
-    idleSet.textureName = "knight_idle";
-    idleSet.numFrames = 8;
-    idleSet.frameWidth = 128;
-    idleSet.frameHeight = 64;
-    idleSet.frameSeconds = 0.12f;
-    idleSet.isHorizontal = false;
-    idleSet.isLoop = true;
+    gm.loadTexture("bluegolem_walk", "Assets/Textures/Monster/BlueGolem-Walk.png");
 
     AnimatedSetData walkSet;
-    walkSet.textureName = "knight_walk";
-    walkSet.numFrames = 8;
-    walkSet.frameWidth = 128;
+    walkSet.textureName = "bluegolem_walk";
+    walkSet.numFrames = 10;
+    walkSet.frameWidth = 90;
     walkSet.frameHeight = 64;
     walkSet.frameSeconds = 0.10f;
-    walkSet.isHorizontal = false;
+    walkSet.isHorizontal = true;
     walkSet.isLoop = true;
 
-    gm.addAnimationSet("idle", idleSet);
-    gm.addAnimationSet("walk", walkSet);
+    gm.addAnimationSet("enemy_walk", walkSet);
 
-    m_spriteId = gm.createSprite("idle");
+    m_spriteId = gm.createSprite("enemy_walk");
     gm.setPosition(m_spriteId, m_position);
-    gm.setAnimation(m_spriteId, "idle");
+    gm.setAnimation(m_spriteId, "enemy_walk");
 }
 
 Enemy::~Enemy()
@@ -116,11 +105,11 @@ void Enemy::update(float dtSeconds, const GraphicsManager::Vec2& playerPosition,
         m_position.y = newY;
     }
 
-    std::string desiredAnimation = "idle";
+    std::string desiredAnimation = "enemy_walk";
 
     if (m_velocity.x != 0.f || m_velocity.y != 0.f)
     {
-        desiredAnimation = "walk";
+        desiredAnimation = "enemy_walk";
     }
 
     if (desiredAnimation != m_currentAnimation)

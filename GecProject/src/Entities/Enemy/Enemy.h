@@ -30,7 +30,7 @@ private:
 
 	float m_speed = 100.f;
 	bool m_facingLeft = false;
-	std::string m_currentAnimation = "idle";
+	std::string m_currentAnimation = "enemy_walk";
 
 };
 

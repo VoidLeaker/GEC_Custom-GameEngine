@@ -28,7 +28,7 @@ namespace
 
 void Game::run()
 {
-	sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "GEC Start Project");
+	sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "GEC Vampire Survivordddd");
 
 	if (!ImGui::SFML::Init(window))
 	{

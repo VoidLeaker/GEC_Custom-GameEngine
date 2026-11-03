@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Entities\Projectiles\BaseProjectiles.cpp" />
     <ClCompile Include="src\Entities\Entity.cpp" />
     <ClCompile Include="src\Entities\Enemy\Enemy.cpp" />
     <ClCompile Include="src\GameData\CollisionsData.cpp" />
@@ -156,20 +157,22 @@
     <ClCompile Include="src\Graphics\Texture\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Entities\Projectiles\BaseProjectiles.h" />
     <ClInclude Include="src\Entities\Entity.h" />
     <ClInclude Include="src\Entities\Enemy\Enemy.h" />
     <ClInclude Include="src\GameData\CollisionsData.h" />
     <ClInclude Include="src\Entities\EntityManager.h" />
     <ClInclude Include="src\Entities\Player\Player.h" />
-    <ClInclude Include="src\GameData\AnimatedSetData.h" />
+    <ClInclude Include="src\GameData\SpritesRelated\AnimatedSetData.h" />
     <ClInclude Include="src\GameData\EntityComponent.h" />
+    <ClInclude Include="src\GameData\ResolutionAdjuster.h" />
     <ClInclude Include="src\Graphics\Animation\AnimationManager.h" />
     <ClInclude Include="src\Misc\ExternalHeaders.h" />
     <ClInclude Include="src\Game\Game.h" />
     <ClInclude Include="src\GameData\GameData.h" />
     <ClInclude Include="src\Graphics\GraphicsManager.h" />
     <ClInclude Include="src\InputManager\InputManager.h" />
-    <ClInclude Include="src\InputManager\IReceiveInput.h" />
+    <ClInclude Include="src\InputManager\InputListener\IReceiveInput.h" />
     <ClInclude Include="src\Graphics\Texture\TextureManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

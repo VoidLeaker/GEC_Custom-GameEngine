@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../src/InputManager/IReceiveInput.h"
+#include "../src/InputManager/InputListener/IReceiveInput.h"
 #include "../src/Graphics/GraphicsManager.h"
 #include "../src/GameData/CollisionsData.h"
 #include <string>
