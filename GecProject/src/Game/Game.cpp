@@ -1,1 +1,175 @@
 #include "Game.h"
+
+#include "../GameData/SpritesRelated/AnimatedSetData.h"
+#include "../Misc/ExternalHeaders.h"
+
+namespace
+{
+	bool RegisterEnemyAnimation(const std::string& name, const std::string& filename, int frames, int frameWidth)
+	{
+		auto& gm = GraphicsManager::GetInstance();
+		if (!gm.loadTexture(name, filename))
+			return false;
+
+		AnimatedSetData walkSet;
+		walkSet.textureName = name;
+		walkSet.numFrames = frames;
+		walkSet.frameWidth = frameWidth;
+		walkSet.frameHeight = 64;
+		walkSet.frameSeconds = 0.10f;
+		walkSet.isHorizontal = true;
+		walkSet.isLoop = true;
+		gm.addAnimationSet(name, walkSet);
+		return true;
+	}
+
+	void DefineGUI(int fps, bool hitWall)
+	{
+		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+		ImGui::Begin("GEC");
+		ImGui::Text("Milestone 2 Testing");
+		ImGui::Separator();
+		ImGui::Text("Stable FramePerSecond: %d", fps);
+
+		if (hitWall)
+		{
+			ImGui::TextColored(ImVec4(1.f, 0.3f, 0.3f, 1.f), "Wall hit: YES");
+		}
+		else
+		{
+			ImGui::TextColored(ImVec4(0.3f, 1.f, 0.3f, 1.f), "Wall hit: NO");
+		}
+
+		ImGui::End();
+	}
+}
+
+void Game::run()
+{
+	sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "GEC Vampire Survivor");
+
+	if (!ImGui::SFML::Init(window))
+	{
+		return;
+	}
+
+	sf::Clock uiDeltaClock;
+	sf::Clock updateClock;
+
+	int fpsCounter = 0;
+	int lastKnownFps = 0;
+	sf::Clock fpsClock;
+
+	if (!RegisterEnemyAnimation("bluegolem_walk", "Assets/Textures/Monster/BlueGolem-Walk.png", 10, 90) ||
+		!RegisterEnemyAnimation("bat_walk", "Assets/Textures/Monster/Bat-Run.png", 8, 64) ||
+		!RegisterEnemyAnimation("yellow_skeleton_walk", "Assets/Textures/Monster/Yellow_SwordSkeleton_Walk.png", 10, 96) ||
+		!RegisterEnemyAnimation("white_skeleton_walk", "Assets/Textures/Monster/White_SwordSkeleton_Walk.png", 10, 96) ||
+		!RegisterEnemyAnimation("mushroom_run", "Assets/Textures/Monster/Mushroom-Run.png", 8, 80) ||
+		!RegisterEnemyAnimation("orangegolem_walk", "Assets/Textures/Monster/OrangeGolem-Walk.png", 10, 90))
+	{
+		ImGui::SFML::Shutdown();
+		return;
+	}
+
+	Player player;
+	Enemy golem("bluegolem_walk", { 48.f, 24.f, 32.f, 36.f });
+	Enemy bat("bat_walk", { 20.f, 24.f, 24.f, 24.f });
+	Enemy yellowSkeleton("yellow_skeleton_walk", { 38.f, 20.f, 20.f, 44.f });
+	Enemy whiteSkeleton("white_skeleton_walk", { 38.f, 20.f, 20.f, 44.f });
+	Enemy mushroom("mushroom_run", { 20.f, 24.f, 24.f, 24.f });
+	Enemy orangeGolem("orangegolem_walk", { 48.f, 24.f, 32.f, 36.f });
+	golem.setPosition({ 300.f, 300.f });
+	bat.setPosition({ 500.f, 120.f });
+	yellowSkeleton.setPosition({ 400.f, 100.f });
+	whiteSkeleton.setPosition({ 140.f, 150.f });
+	mushroom.setPosition({ 600.f, 400.f });
+	orangeGolem.setPosition({ 200.f, 400.f });
+
+	sf::Texture backgroundTexture;
+	std::unique_ptr<sf::Sprite> backgroundSprite;
+	const bool hasBackground = backgroundTexture.loadFromFile("Assets/Textures/Misc/PH_grass.png");
+	if (hasBackground)
+	{
+		backgroundSprite = std::make_unique<sf::Sprite>(backgroundTexture);
+
+		const sf::Vector2u textureSize = backgroundTexture.getSize();
+		if (textureSize.x > 0 && textureSize.y > 0)
+		{
+			const sf::Vector2u windowSize = window.getSize();
+			backgroundSprite->setScale(
+				sf::Vector2f{
+					static_cast<float>(windowSize.x) / static_cast<float>(textureSize.x),
+					static_cast<float>(windowSize.y) / static_cast<float>(textureSize.y)
+				});
+		}
+	}
+
+	std::vector<CollisionsData> walls;
+	walls.emplace_back(300.f, 200.f, 40.f, 200.f);
+	player.setWalls(&walls);
+
+	while (window.isOpen())
+	{
+		while (const std::optional event = window.pollEvent())
+		{
+			ImGui::SFML::ProcessEvent(window, event.value());
+
+			if (event->is<sf::Event::Closed>())
+			{
+				window.close();
+			}
+		}
+
+		ImGui::SFML::Update(window, uiDeltaClock.restart());
+
+		if (fpsClock.getElapsedTime().asSeconds() >= 1)
+		{
+			lastKnownFps = fpsCounter;
+			fpsCounter = 0;
+			fpsClock.reset();
+		}
+		fpsCounter++;
+
+		DefineGUI(lastKnownFps, player.isHittingWall());
+
+		INPUT_MAN.Update();
+
+		sf::Time dt = updateClock.restart();
+
+		player.update(dt.asSeconds());
+		golem.update(dt.asSeconds(), player.getPosition(), { bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
+		orangeGolem.update(dt.asSeconds(), player.getPosition(), { bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
+		mushroom.update(dt.asSeconds(), player.getPosition(), { bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
+		bat.update(dt.asSeconds(), player.getPosition(), { golem.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
+		yellowSkeleton.update(dt.asSeconds(), player.getPosition(), { golem.getCurrentHitbox(), bat.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
+		whiteSkeleton.update(dt.asSeconds(), player.getPosition(), { golem.getCurrentHitbox(), bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox() });
+		GraphicsManager::GetInstance().update(dt.asSeconds());
+
+		window.clear();
+		if (backgroundSprite)
+		{
+			window.draw(*backgroundSprite);
+		}
+		player.draw();
+		golem.draw();
+		bat.draw();
+		yellowSkeleton.draw();
+		whiteSkeleton.draw();
+
+		GraphicsManager::GetInstance().draw(window);
+
+		for (const auto& wall : walls)
+		{
+			sf::RectangleShape wallShape({ wall.m_width, wall.m_height });
+			wallShape.setPosition({ wall.m_posX, wall.m_posY });
+			wallShape.setFillColor(sf::Color(150, 150, 150));
+			window.draw(wallShape);
+		}
+
+		ImGui::SFML::Render(window);
+		window.display();
+	}
+
+	ImGui::SFML::Shutdown();
+}

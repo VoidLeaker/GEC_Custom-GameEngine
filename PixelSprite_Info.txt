@@ -1,0 +1,8 @@
+Pixel Sprite info (all walking animations):
+
+Width x Height pixels
+
+Mushroom - 80 x 64 pixels
+Bat - 64 x 64 pixels
+Golem - 90 x 64 pixels
+Skeletons - 64 x 96 pixels

@@ -1,7 +1,7 @@
 #include "GraphicsManager.h"
-#include "TextureManager.h"
-#include "AnimationManager.h"
-#include "../GameData/AnimatedSetData.h"
+#include "Texture/TextureManager.h"
+#include "Animation/AnimationManager.h"
+#include "../src/GameData/SpritesRelated/AnimatedSetData.h"
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
 #include <map>

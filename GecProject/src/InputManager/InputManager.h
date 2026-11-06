@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IReceiveInput.h"
+#include "../InputManager/InputListener/IReceiveInput.h"
 #include <vector>
 
 class InputManager

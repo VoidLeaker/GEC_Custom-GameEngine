@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../src/InputManager/IReceiveInput.h"
+#include "../src/InputManager/InputListener/IReceiveInput.h"
 #include "../src/Graphics/GraphicsManager.h"
 #include "../src/GameData/CollisionsData.h"
 #include <string>
@@ -35,11 +35,10 @@ private:
     GraphicsManager::Vec2 m_position{ 100.f, 100.f };
     GraphicsManager::Vec2 m_velocity{ 0.f, 0.f };
     
-    float m_speed = 200.f;
-    bool m_attacking = false;
+    float m_speed = 100.f;
+
     bool m_mouseHeld = false;
-    float m_attackTimer = 0.f;
-    float m_attackDuration = 0.48f;
+
     bool m_facingLeft = false;
     std::string m_currentAnimation = "idle";
 };
