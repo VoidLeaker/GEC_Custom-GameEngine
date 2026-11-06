@@ -1,5 +1,6 @@
 #include "Game.h"
 
+#include "../DebugTools/Collision/CollisionDebug.h"
 #include "../GameData/SpritesRelated/AnimatedSetData.h"
 #include "../Misc/ExternalHeaders.h"
 
@@ -108,12 +109,14 @@ void Game::run()
 	std::vector<CollisionsData> walls;
 	walls.emplace_back(300.f, 200.f, 40.f, 200.f);
 	player.setWalls(&walls);
+	CollisionDebug collisionDebug;
 
 	while (window.isOpen())
 	{
 		while (const std::optional event = window.pollEvent())
 		{
 			ImGui::SFML::ProcessEvent(window, event.value());
+			collisionDebug.handleEvent(event.value());
 
 			if (event->is<sf::Event::Closed>())
 			{
@@ -165,6 +168,18 @@ void Game::run()
 			wallShape.setPosition({ wall.m_posX, wall.m_posY });
 			wallShape.setFillColor(sf::Color(150, 150, 150));
 			window.draw(wallShape);
+		}
+
+		collisionDebug.draw(window, player.getCurrentHitbox(), sf::Color::Green);
+		collisionDebug.draw(window, golem.getCurrentHitbox(), sf::Color::Green);
+		collisionDebug.draw(window, bat.getCurrentHitbox(), sf::Color::Green);
+		collisionDebug.draw(window, yellowSkeleton.getCurrentHitbox(), sf::Color::Green);
+		collisionDebug.draw(window, whiteSkeleton.getCurrentHitbox(), sf::Color::Green);
+		collisionDebug.draw(window, mushroom.getCurrentHitbox(), sf::Color::Green);
+		collisionDebug.draw(window, orangeGolem.getCurrentHitbox(), sf::Color::Green);
+		for (const auto& wall : walls)
+		{
+			collisionDebug.draw(window, wall, sf::Color::Red);
 		}
 
 		ImGui::SFML::Render(window);
