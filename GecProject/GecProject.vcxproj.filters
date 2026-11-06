@@ -119,7 +119,7 @@
     <ClInclude Include="src\Entities\Projectiles\BaseProjectiles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameData\ResolutionAdjuster.h">
+    <ClInclude Include="src\GameData\Video-Data\ResolutionAdjuster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DebugTools\Collision\CollisionDebug.h">

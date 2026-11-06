@@ -165,7 +165,7 @@
     <ClInclude Include="src\Entities\Player\Player.h" />
     <ClInclude Include="src\GameData\SpritesRelated\AnimatedSetData.h" />
     <ClInclude Include="src\GameData\EntityComponent.h" />
-    <ClInclude Include="src\GameData\ResolutionAdjuster.h" />
+    <ClInclude Include="src\GameData\Video-Data\ResolutionAdjuster.h" />
     <ClInclude Include="src\Graphics\Animation\AnimationManager.h" />
     <ClInclude Include="src\Misc\ExternalHeaders.h" />
     <ClInclude Include="src\Game\Game.h" />
