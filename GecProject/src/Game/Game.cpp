@@ -62,6 +62,7 @@ void Game::run()
 	int lastKnownFps = 0;
 	sf::Clock fpsClock;
 
+	// Register enemy animations
 	if (!RegisterEnemyAnimation("bluegolem_walk", "Assets/Textures/Monster/BlueGolem-Walk.png", 10, 90) ||
 		!RegisterEnemyAnimation("bat_walk", "Assets/Textures/Monster/Bat-Run.png", 8, 64) ||
 		!RegisterEnemyAnimation("yellow_skeleton_walk", "Assets/Textures/Monster/Yellow_SwordSkeleton_Walk.png", 10, 96) ||
@@ -144,6 +145,8 @@ void Game::run()
 		sf::Time dt = updateClock.restart();
 
 		player.update(dt.asSeconds());
+
+		// Update enemies with the player's position and the hitboxes of other enemies
 		golem.update(dt.asSeconds(), player.getPosition(), { bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
 		orangeGolem.update(dt.asSeconds(), player.getPosition(), { bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
 		mushroom.update(dt.asSeconds(), player.getPosition(), { bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
@@ -173,6 +176,7 @@ void Game::run()
 			window.draw(wallShape);
 		}
 
+		// Draw hitboxes for debugging
 		collisionDebug.draw(window, player.getCurrentHitbox(), sf::Color::Green);
 		collisionDebug.draw(window, golem.getCurrentHitbox(), sf::Color::Red);
 		collisionDebug.draw(window, bat.getCurrentHitbox(), sf::Color::Red);

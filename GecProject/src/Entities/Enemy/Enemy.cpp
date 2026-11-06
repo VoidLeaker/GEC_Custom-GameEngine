@@ -51,6 +51,7 @@ void Enemy::update(float dtSeconds, const GraphicsManager::Vec2& playerPosition,
 {
     auto& gm = GraphicsManager::GetInstance();
 
+	// Calculate the direction vector towards the player
     const float deltaX = playerPosition.x - m_position.x;
     const float deltaY = playerPosition.y - m_position.y;
     const float lengthSquared = (deltaX * deltaX) + (deltaY * deltaY);
