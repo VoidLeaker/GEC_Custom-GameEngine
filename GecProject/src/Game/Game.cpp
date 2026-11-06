@@ -1,5 +1,6 @@
 #include "Game.h"
 
+#include "../DebugTools/Collision/CollisionDebug.h"
 #include "../GameData/SpritesRelated/AnimatedSetData.h"
 #include "../Misc/ExternalHeaders.h"
 
@@ -61,6 +62,7 @@ void Game::run()
 	int lastKnownFps = 0;
 	sf::Clock fpsClock;
 
+	// Register enemy animations
 	if (!RegisterEnemyAnimation("bluegolem_walk", "Assets/Textures/Monster/BlueGolem-Walk.png", 10, 90) ||
 		!RegisterEnemyAnimation("bat_walk", "Assets/Textures/Monster/Bat-Run.png", 8, 64) ||
 		!RegisterEnemyAnimation("yellow_skeleton_walk", "Assets/Textures/Monster/Yellow_SwordSkeleton_Walk.png", 10, 96) ||
@@ -73,12 +75,15 @@ void Game::run()
 	}
 
 	Player player;
-	Enemy golem("bluegolem_walk", { 48.f, 24.f, 32.f, 36.f });
+
+	// Set up enemies with their respective hitboxes (x, y, width, height)
+	Enemy golem("bluegolem_walk", { 26.f, 24.f, 36.f, 40.f });
 	Enemy bat("bat_walk", { 20.f, 24.f, 24.f, 24.f });
 	Enemy yellowSkeleton("yellow_skeleton_walk", { 38.f, 20.f, 20.f, 44.f });
 	Enemy whiteSkeleton("white_skeleton_walk", { 38.f, 20.f, 20.f, 44.f });
-	Enemy mushroom("mushroom_run", { 20.f, 24.f, 24.f, 24.f });
-	Enemy orangeGolem("orangegolem_walk", { 48.f, 24.f, 32.f, 36.f });
+	Enemy mushroom("mushroom_run", { 22.f, 30.f, 36.f, 36.f });
+	Enemy orangeGolem("orangegolem_walk", { 26.f, 24.f, 36.f, 40.f });
+
 	golem.setPosition({ 300.f, 300.f });
 	bat.setPosition({ 500.f, 120.f });
 	yellowSkeleton.setPosition({ 400.f, 100.f });
@@ -108,12 +113,14 @@ void Game::run()
 	std::vector<CollisionsData> walls;
 	walls.emplace_back(300.f, 200.f, 40.f, 200.f);
 	player.setWalls(&walls);
+	CollisionDebug collisionDebug;
 
 	while (window.isOpen())
 	{
 		while (const std::optional event = window.pollEvent())
 		{
 			ImGui::SFML::ProcessEvent(window, event.value());
+			collisionDebug.handleEvent(event.value());
 
 			if (event->is<sf::Event::Closed>())
 			{
@@ -138,6 +145,8 @@ void Game::run()
 		sf::Time dt = updateClock.restart();
 
 		player.update(dt.asSeconds());
+
+		// Update enemies with the player's position and the hitboxes of other enemies
 		golem.update(dt.asSeconds(), player.getPosition(), { bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
 		orangeGolem.update(dt.asSeconds(), player.getPosition(), { bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
 		mushroom.update(dt.asSeconds(), player.getPosition(), { bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
@@ -165,6 +174,19 @@ void Game::run()
 			wallShape.setPosition({ wall.m_posX, wall.m_posY });
 			wallShape.setFillColor(sf::Color(150, 150, 150));
 			window.draw(wallShape);
+		}
+
+		// Draw hitboxes for debugging
+		collisionDebug.draw(window, player.getCurrentHitbox(), sf::Color::Green);
+		collisionDebug.draw(window, golem.getCurrentHitbox(), sf::Color::Red);
+		collisionDebug.draw(window, bat.getCurrentHitbox(), sf::Color::Red);
+		collisionDebug.draw(window, yellowSkeleton.getCurrentHitbox(), sf::Color::Red);
+		collisionDebug.draw(window, whiteSkeleton.getCurrentHitbox(), sf::Color::Red);
+		collisionDebug.draw(window, mushroom.getCurrentHitbox(), sf::Color::Red);
+		collisionDebug.draw(window, orangeGolem.getCurrentHitbox(), sf::Color::Red);
+		for (const auto& wall : walls)
+		{
+			collisionDebug.draw(window, wall, sf::Color::Red);
 		}
 
 		ImGui::SFML::Render(window);

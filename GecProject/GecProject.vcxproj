@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\DebugTools\Collision\CollisionDebug.cpp" />
     <ClCompile Include="src\Entities\Projectiles\BaseProjectiles.cpp" />
     <ClCompile Include="src\Entities\Entity.cpp" />
     <ClCompile Include="src\Entities\Enemy\Enemy.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="src\Graphics\Texture\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\DebugTools\Collision\CollisionDebug.h" />
     <ClInclude Include="src\Entities\Projectiles\BaseProjectiles.h" />
     <ClInclude Include="src\Entities\Entity.h" />
     <ClInclude Include="src\Entities\Enemy\Enemy.h" />
