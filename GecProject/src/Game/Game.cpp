@@ -74,12 +74,15 @@ void Game::run()
 	}
 
 	Player player;
-	Enemy golem("bluegolem_walk", { 48.f, 24.f, 32.f, 36.f });
+
+	// Set up enemies with their respective hitboxes (x, y, width, height)
+	Enemy golem("bluegolem_walk", { 26.f, 24.f, 36.f, 40.f });
 	Enemy bat("bat_walk", { 20.f, 24.f, 24.f, 24.f });
 	Enemy yellowSkeleton("yellow_skeleton_walk", { 38.f, 20.f, 20.f, 44.f });
 	Enemy whiteSkeleton("white_skeleton_walk", { 38.f, 20.f, 20.f, 44.f });
-	Enemy mushroom("mushroom_run", { 20.f, 24.f, 24.f, 24.f });
-	Enemy orangeGolem("orangegolem_walk", { 48.f, 24.f, 32.f, 36.f });
+	Enemy mushroom("mushroom_run", { 22.f, 30.f, 36.f, 36.f });
+	Enemy orangeGolem("orangegolem_walk", { 26.f, 24.f, 36.f, 40.f });
+
 	golem.setPosition({ 300.f, 300.f });
 	bat.setPosition({ 500.f, 120.f });
 	yellowSkeleton.setPosition({ 400.f, 100.f });
@@ -171,12 +174,12 @@ void Game::run()
 		}
 
 		collisionDebug.draw(window, player.getCurrentHitbox(), sf::Color::Green);
-		collisionDebug.draw(window, golem.getCurrentHitbox(), sf::Color::Green);
-		collisionDebug.draw(window, bat.getCurrentHitbox(), sf::Color::Green);
-		collisionDebug.draw(window, yellowSkeleton.getCurrentHitbox(), sf::Color::Green);
-		collisionDebug.draw(window, whiteSkeleton.getCurrentHitbox(), sf::Color::Green);
-		collisionDebug.draw(window, mushroom.getCurrentHitbox(), sf::Color::Green);
-		collisionDebug.draw(window, orangeGolem.getCurrentHitbox(), sf::Color::Green);
+		collisionDebug.draw(window, golem.getCurrentHitbox(), sf::Color::Red);
+		collisionDebug.draw(window, bat.getCurrentHitbox(), sf::Color::Red);
+		collisionDebug.draw(window, yellowSkeleton.getCurrentHitbox(), sf::Color::Red);
+		collisionDebug.draw(window, whiteSkeleton.getCurrentHitbox(), sf::Color::Red);
+		collisionDebug.draw(window, mushroom.getCurrentHitbox(), sf::Color::Red);
+		collisionDebug.draw(window, orangeGolem.getCurrentHitbox(), sf::Color::Red);
 		for (const auto& wall : walls)
 		{
 			collisionDebug.draw(window, wall, sf::Color::Red);
