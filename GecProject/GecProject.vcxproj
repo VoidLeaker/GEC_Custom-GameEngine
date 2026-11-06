@@ -137,11 +137,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\DebugTools\Collision\CollisionDebug.cpp" />
     <ClCompile Include="src\Entities\Projectiles\BaseProjectiles.cpp" />
     <ClCompile Include="src\Entities\Entity.cpp" />
     <ClCompile Include="src\Entities\Enemy\Enemy.cpp" />
-    <ClCompile Include="src\GameData\CollisionsData.cpp" />
     <ClCompile Include="src\Entities\EntityManager.cpp" />
     <ClCompile Include="src\Entities\Player\Player.cpp" />
     <ClCompile Include="src\Graphics\Animation\AnimationManager.cpp" />
