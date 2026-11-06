@@ -1,9 +1,28 @@
 #include "Game.h"
 
+#include "../GameData/SpritesRelated/AnimatedSetData.h"
 #include "../Misc/ExternalHeaders.h"
 
 namespace
 {
+	bool RegisterEnemyAnimation(const std::string& name, const std::string& filename, int frames, int frameWidth)
+	{
+		auto& gm = GraphicsManager::GetInstance();
+		if (!gm.loadTexture(name, filename))
+			return false;
+
+		AnimatedSetData walkSet;
+		walkSet.textureName = name;
+		walkSet.numFrames = frames;
+		walkSet.frameWidth = frameWidth;
+		walkSet.frameHeight = 64;
+		walkSet.frameSeconds = 0.10f;
+		walkSet.isHorizontal = true;
+		walkSet.isLoop = true;
+		gm.addAnimationSet(name, walkSet);
+		return true;
+	}
+
 	void DefineGUI(int fps, bool hitWall)
 	{
 		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
@@ -28,7 +47,7 @@ namespace
 
 void Game::run()
 {
-	sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "GEC Vampire Survivordddd");
+	sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "GEC Vampire Survivor");
 
 	if (!ImGui::SFML::Init(window))
 	{
@@ -42,11 +61,30 @@ void Game::run()
 	int lastKnownFps = 0;
 	sf::Clock fpsClock;
 
+	if (!RegisterEnemyAnimation("bluegolem_walk", "Assets/Textures/Monster/BlueGolem-Walk.png", 10, 90) ||
+		!RegisterEnemyAnimation("bat_walk", "Assets/Textures/Monster/Bat-Run.png", 8, 64) ||
+		!RegisterEnemyAnimation("yellow_skeleton_walk", "Assets/Textures/Monster/Yellow_SwordSkeleton_Walk.png", 10, 96) ||
+		!RegisterEnemyAnimation("white_skeleton_walk", "Assets/Textures/Monster/White_SwordSkeleton_Walk.png", 10, 96) ||
+		!RegisterEnemyAnimation("mushroom_run", "Assets/Textures/Monster/Mushroom-Run.png", 8, 80) ||
+		!RegisterEnemyAnimation("orangegolem_walk", "Assets/Textures/Monster/OrangeGolem-Walk.png", 10, 90))
+	{
+		ImGui::SFML::Shutdown();
+		return;
+	}
+
 	Player player;
-	Enemy enemyA;
-	Enemy enemyB;
-	enemyA.setPosition({ 300.f, 300.f });
-	enemyB.setPosition({ 500.f, 120.f });
+	Enemy golem("bluegolem_walk", { 48.f, 24.f, 32.f, 36.f });
+	Enemy bat("bat_walk", { 20.f, 24.f, 24.f, 24.f });
+	Enemy yellowSkeleton("yellow_skeleton_walk", { 38.f, 20.f, 20.f, 44.f });
+	Enemy whiteSkeleton("white_skeleton_walk", { 38.f, 20.f, 20.f, 44.f });
+	Enemy mushroom("mushroom_run", { 20.f, 24.f, 24.f, 24.f });
+	Enemy orangeGolem("orangegolem_walk", { 48.f, 24.f, 32.f, 36.f });
+	golem.setPosition({ 300.f, 300.f });
+	bat.setPosition({ 500.f, 120.f });
+	yellowSkeleton.setPosition({ 400.f, 100.f });
+	whiteSkeleton.setPosition({ 140.f, 150.f });
+	mushroom.setPosition({ 600.f, 400.f });
+	orangeGolem.setPosition({ 200.f, 400.f });
 
 	sf::Texture backgroundTexture;
 	std::unique_ptr<sf::Sprite> backgroundSprite;
@@ -100,8 +138,12 @@ void Game::run()
 		sf::Time dt = updateClock.restart();
 
 		player.update(dt.asSeconds());
-		enemyA.update(dt.asSeconds(), player.getPosition(), { enemyB.getCurrentHitbox() });
-		enemyB.update(dt.asSeconds(), player.getPosition(), { enemyA.getCurrentHitbox() });
+		golem.update(dt.asSeconds(), player.getPosition(), { bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
+		orangeGolem.update(dt.asSeconds(), player.getPosition(), { bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
+		mushroom.update(dt.asSeconds(), player.getPosition(), { bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
+		bat.update(dt.asSeconds(), player.getPosition(), { golem.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
+		yellowSkeleton.update(dt.asSeconds(), player.getPosition(), { golem.getCurrentHitbox(), bat.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
+		whiteSkeleton.update(dt.asSeconds(), player.getPosition(), { golem.getCurrentHitbox(), bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox() });
 		GraphicsManager::GetInstance().update(dt.asSeconds());
 
 		window.clear();
@@ -110,8 +152,10 @@ void Game::run()
 			window.draw(*backgroundSprite);
 		}
 		player.draw();
-		enemyA.draw();
-		enemyB.draw();
+		golem.draw();
+		bat.draw();
+		yellowSkeleton.draw();
+		whiteSkeleton.draw();
 
 		GraphicsManager::GetInstance().draw(window);
 

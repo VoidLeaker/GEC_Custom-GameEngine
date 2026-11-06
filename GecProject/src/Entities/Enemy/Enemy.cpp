@@ -1,33 +1,18 @@
 #include "Enemy.h"
 #include "../src/Graphics/GraphicsManager.h"
-#include "../src/GameData/SpritesRelated/AnimatedSetData.h"
 #include <cmath>
 
-Enemy::Enemy()
+Enemy::Enemy(const std::string& walkAnimation, const CollisionsData& hitbox)
+    : m_hitbox(hitbox)
 {
-	auto& gm = GraphicsManager::GetInstance();
-
-    gm.loadTexture("bluegolem_walk", "Assets/Textures/Monster/BlueGolem-Walk.png");
-
-    AnimatedSetData walkSet;
-    walkSet.textureName = "bluegolem_walk";
-    walkSet.numFrames = 10;
-    walkSet.frameWidth = 90;
-    walkSet.frameHeight = 64;
-    walkSet.frameSeconds = 0.10f;
-    walkSet.isHorizontal = true;
-    walkSet.isLoop = true;
-
-    gm.addAnimationSet("enemy_walk", walkSet);
-
-    m_spriteId = gm.createSprite("enemy_walk");
+    auto& gm = GraphicsManager::GetInstance();
+    m_spriteId = gm.createSprite(walkAnimation);
     gm.setPosition(m_spriteId, m_position);
-    gm.setAnimation(m_spriteId, "enemy_walk");
 }
 
 Enemy::~Enemy()
 {
-    if (m_spriteId != 1)
+    if (m_spriteId != 0)
         GraphicsManager::GetInstance().destroySprite(m_spriteId);
 }
 
@@ -44,11 +29,7 @@ GraphicsManager::Vec2 Enemy::getPosition() const
 
 CollisionsData Enemy::getHitbox(float x, float y) const
 {
-    constexpr float offsetX = 48.f;
-    constexpr float offsetY = 24.f;
-    constexpr float width = 32.f;
-    constexpr float height = 36.f;
-    return CollisionsData(x + offsetX, y + offsetY, width, height);
+    return CollisionsData(x + m_hitbox.m_posX, y + m_hitbox.m_posY, m_hitbox.m_width, m_hitbox.m_height);
 }
 
 bool Enemy::isBlocked(float x, float y, const std::vector<CollisionsData>& blockingHitboxes) const
@@ -103,19 +84,6 @@ void Enemy::update(float dtSeconds, const GraphicsManager::Vec2& playerPosition,
     if (!isBlocked(m_position.x, newY, blockingHitboxes))
     {
         m_position.y = newY;
-    }
-
-    std::string desiredAnimation = "enemy_walk";
-
-    if (m_velocity.x != 0.f || m_velocity.y != 0.f)
-    {
-        desiredAnimation = "enemy_walk";
-    }
-
-    if (desiredAnimation != m_currentAnimation)
-    {
-        m_currentAnimation = desiredAnimation;
-        gm.setAnimation(m_spriteId, desiredAnimation);
     }
 
     gm.setFlipped(m_spriteId, m_facingLeft);

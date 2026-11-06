@@ -7,8 +7,10 @@
 class Enemy
 {
 public:
-	Enemy();
+	Enemy(const std::string& walkAnimation, const CollisionsData& hitbox);
 	~Enemy();
+	Enemy(const Enemy&) = delete;
+	Enemy& operator=(const Enemy&) = delete;
 
 	void update(float dtSeconds, const GraphicsManager::Vec2& playerPosition, const std::vector<CollisionsData>& blockingHitboxes);
 	void draw() {}
@@ -22,15 +24,13 @@ public:
 private:
 	bool isBlocked(float x, float y, const std::vector<CollisionsData>& blockingHitboxes) const;
 
-	const std::vector<CollisionsData>* m_walls = nullptr;
-
-	GraphicsManager::SpriteId m_spriteId = 1;
+	GraphicsManager::SpriteId m_spriteId = 0;
+	CollisionsData m_hitbox;
 	GraphicsManager::Vec2 m_position{ 300.f, 300.f };
 	GraphicsManager::Vec2 m_velocity{ 0.f, 0.f };
 
 	float m_speed = 100.f;
 	bool m_facingLeft = false;
-	std::string m_currentAnimation = "enemy_walk";
 
 };
 
