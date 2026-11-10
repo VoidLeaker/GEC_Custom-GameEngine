@@ -137,11 +137,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Colliders\BoxCollider.cpp" />
+    <ClCompile Include="src\Colliders\CircleCollider.cpp" />
     <ClCompile Include="src\Entities\Projectiles\BaseProjectiles.cpp" />
     <ClCompile Include="src\Entities\Entity.cpp" />
     <ClCompile Include="src\Entities\Enemy\Enemy.cpp" />
     <ClCompile Include="src\Entities\EntityManager.cpp" />
     <ClCompile Include="src\Entities\Player\Player.cpp" />
+    <ClCompile Include="src\GameData\CollisionsData.cpp" />
     <ClCompile Include="src\Graphics\Animation\AnimationManager.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
     <ClCompile Include="src\Graphics\GraphicsManager.cpp" />
@@ -156,6 +159,8 @@
     <ClCompile Include="src\Graphics\Texture\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Colliders\CircleCollider.h" />
+    <ClInclude Include="src\Colliders\BoxCollider.h" />
     <ClInclude Include="src\DebugTools\Collision\CollisionDebug.h" />
     <ClInclude Include="src\Entities\Projectiles\BaseProjectiles.h" />
     <ClInclude Include="src\Entities\Entity.h" />

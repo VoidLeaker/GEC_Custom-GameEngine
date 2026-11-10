@@ -78,7 +78,7 @@ void Game::run()
 
 	// Set up enemies with their respective hitboxes (x, y, width, height)
 	Enemy golem("bluegolem_walk", { 26.f, 24.f, 36.f, 40.f });
-	Enemy bat("bat_walk", { 20.f, 24.f, 24.f, 24.f });
+	Enemy bat("bat_walk", { 20.f, 24.f, 24.f, 24.f, CollisionsData::Shape::Circle });
 	Enemy yellowSkeleton("yellow_skeleton_walk", { 38.f, 20.f, 20.f, 44.f });
 	Enemy whiteSkeleton("white_skeleton_walk", { 38.f, 20.f, 20.f, 44.f });
 	Enemy mushroom("mushroom_run", { 22.f, 30.f, 36.f, 36.f });
@@ -174,10 +174,11 @@ void Game::run()
 			window.draw(*backgroundSprite);
 		}
 		player.draw();
-		golem.draw();
 		bat.draw();
-		yellowSkeleton.draw();
+		golem.draw();
+		mushroom.draw();
 		whiteSkeleton.draw();
+		yellowSkeleton.draw();
 
 		GraphicsManager::GetInstance().draw(window);
 
