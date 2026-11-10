@@ -2,60 +2,37 @@
 
 #include <vector>
 
+#include "../Colliders/BoxCollider.h"
+#include "../Colliders/CircleCollider.h"
+
 class CollisionsData
 {
 public:
+	enum class Shape { Box, Circle };
+
+	// For circles, the bounds (pos/width/height) are the circle's bounding square; width is the diameter.
+	Shape m_shape{ Shape::Box };
+
 	float m_posX{ 0.f };
 	float m_posY{ 0.f };
 
 	float m_width{ 0.f };
 	float m_height{ 0.f };
 
-	CollisionsData(float posX = 0.f, float posY = 0.f, float width = 0.f, float height = 0.f)
-		: m_posX(posX), m_posY(posY), m_width(width), m_height(height) {}
+	CollisionsData(float posX = 0.f, float posY = 0.f, float width = 0.f, float height = 0.f, Shape shape = Shape::Box)
+		: m_shape(shape), m_posX(posX), m_posY(posY), m_width(width), m_height(height) {}
 
-	bool intersection(const CollisionsData& other) const
-	{
-		if (m_posX < other.m_posX + other.m_width &&
-			m_posX + m_width > other.m_posX &&
-			m_posY < other.m_posY + other.m_height &&
-			m_posY + m_height > other.m_posY)
-		{
-			return true;
-		}
-		return false;
-	}
+	static CollisionsData makeCircle(float centreX, float centreY, float radius);
 
-	float limitMovement(float distance, bool horizontal, const std::vector<CollisionsData>& obstacles) const
-	{
-		const float start = horizontal ? m_posX : m_posY;
-		const float size = horizontal ? m_width : m_height;
-		const float crossStart = horizontal ? m_posY : m_posX;
-		const float crossSize = horizontal ? m_height : m_width;
+	BoxCollider toBox() const;
+	CircleCollider toCircle() const;
 
-		for (const auto& obstacle : obstacles)
-		{
-			const float obstacleStart = horizontal ? obstacle.m_posX : obstacle.m_posY;
-			const float obstacleSize = horizontal ? obstacle.m_width : obstacle.m_height;
-			const float obstacleCrossStart = horizontal ? obstacle.m_posY : obstacle.m_posX;
-			const float obstacleCrossSize = horizontal ? obstacle.m_height : obstacle.m_width;
+	bool intersection(const CollisionsData& other) const;
+	CollisionsData moved(float distance, bool horizontal) const;
 
-			if (crossStart >= obstacleCrossStart + obstacleCrossSize || crossStart + crossSize <= obstacleCrossStart)
-				continue;
+	// Largest movement (up to distance) along one axis that does not run into the obstacle. Used when a circle is involved.
+	float limitMovementSwept(float distance, bool horizontal, const CollisionsData& obstacle) const;
 
-			if (distance > 0.f && start + size <= obstacleStart)
-			{
-				const float gap = obstacleStart - (start + size);
-				if (distance > gap)
-					distance = gap;
-			}
-			else if (distance < 0.f && start >= obstacleStart + obstacleSize)
-			{
-				const float gap = obstacleStart + obstacleSize - start;
-				if (distance < gap)
-					distance = gap;
-			}
-		}
-		return distance;
-	}
+	float limitMovement(float distance, bool horizontal, const std::vector<CollisionsData>& obstacles) const;
 };
+

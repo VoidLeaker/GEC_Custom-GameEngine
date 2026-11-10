@@ -38,6 +38,17 @@ public:
 		if (!m_enabled)
 			return;
 
+		if (hitbox.m_shape == CollisionsData::Shape::Circle)
+		{
+			sf::CircleShape circle(hitbox.m_width * 0.5f);
+			circle.setPosition({ hitbox.m_posX, hitbox.m_posY });
+			circle.setFillColor(sf::Color::Transparent);
+			circle.setOutlineColor(color);
+			circle.setOutlineThickness(-1.f);
+			target.draw(circle);
+			return;
+		}
+
 		sf::RectangleShape shape({ hitbox.m_width, hitbox.m_height });
 		shape.setPosition({ hitbox.m_posX, hitbox.m_posY });
 		shape.setFillColor(sf::Color::Transparent);

@@ -29,7 +29,7 @@ GraphicsManager::Vec2 Enemy::getPosition() const
 
 CollisionsData Enemy::getHitbox(float x, float y) const
 {
-    return CollisionsData(x + m_hitbox.m_posX, y + m_hitbox.m_posY, m_hitbox.m_width, m_hitbox.m_height);
+    return CollisionsData(x + m_hitbox.m_posX, y + m_hitbox.m_posY, m_hitbox.m_width, m_hitbox.m_height, m_hitbox.m_shape);
 }
 
 void Enemy::update(float dtSeconds, const GraphicsManager::Vec2& playerPosition, const std::vector<CollisionsData>& blockingHitboxes)
