@@ -21,8 +21,12 @@ public:
 	CollisionsData getHitbox(float x, float y) const;
 	CollisionsData getCurrentHitbox() const { return getHitbox(m_position.x, m_position.y); }
 
+	void setWalls(const std::vector<CollisionsData>* walls) { m_walls = walls; }
+	bool isHittingWall() const { return m_hitWall; }
+
 private:
-	bool isBlocked(float x, float y, const std::vector<CollisionsData>& blockingHitboxes) const;
+	bool m_hitWall = false;
+	const std::vector<CollisionsData>* m_walls = nullptr;
 
 	GraphicsManager::SpriteId m_spriteId = 0;
 	CollisionsData m_hitbox;

@@ -14,21 +14,21 @@ public:
 
     void handleInput(InputAction action) override;
 
-    void update(float dtSeconds);
+    void update(float dtSeconds, const std::vector<CollisionsData>& blockingHitboxes);
     void draw() {}
 
     void setPosition(const GraphicsManager::Vec2& pos);
     GraphicsManager::Vec2 getPosition() const;
 
     void setWalls(const std::vector<CollisionsData>* walls) { m_walls = walls; }
-    CollisionsData getHitbox(float x, float y) const;
     bool isHittingWall() const { return m_hitWall; }
+    CollisionsData getHitbox(float x, float y) const;
     CollisionsData getCurrentHitbox() const { return getHitbox(m_position.x, m_position.y); }
+    
 
 private:
 
     bool m_hitWall = false;
-    bool isBlocked(float x, float y) const;
     const std::vector<CollisionsData>* m_walls = nullptr;
 
     GraphicsManager::SpriteId m_spriteId = 0;

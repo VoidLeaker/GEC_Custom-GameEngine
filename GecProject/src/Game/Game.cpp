@@ -24,7 +24,7 @@ namespace
 		return true;
 	}
 
-	void DefineGUI(int fps, bool hitWall)
+	void DefineGUI(int fps, bool hitWall, bool collisionDebugEnabled)
 	{
 		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
@@ -33,11 +33,11 @@ namespace
 		ImGui::Separator();
 		ImGui::Text("Stable FramePerSecond: %d", fps);
 
-		if (hitWall)
+		if (collisionDebugEnabled && hitWall)
 		{
 			ImGui::TextColored(ImVec4(1.f, 0.3f, 0.3f, 1.f), "Wall hit: YES");
 		}
-		else
+		else if (collisionDebugEnabled)
 		{
 			ImGui::TextColored(ImVec4(0.3f, 1.f, 0.3f, 1.f), "Wall hit: NO");
 		}
@@ -84,7 +84,7 @@ void Game::run()
 	Enemy mushroom("mushroom_run", { 22.f, 30.f, 36.f, 36.f });
 	Enemy orangeGolem("orangegolem_walk", { 26.f, 24.f, 36.f, 40.f });
 
-	golem.setPosition({ 300.f, 300.f });
+	golem.setPosition({ 350.f, 300.f });
 	bat.setPosition({ 500.f, 120.f });
 	yellowSkeleton.setPosition({ 400.f, 100.f });
 	whiteSkeleton.setPosition({ 140.f, 150.f });
@@ -113,6 +113,11 @@ void Game::run()
 	std::vector<CollisionsData> walls;
 	walls.emplace_back(300.f, 200.f, 40.f, 200.f);
 	player.setWalls(&walls);
+	const std::vector<Enemy*> enemies{ &golem, &orangeGolem, &mushroom, &bat, &yellowSkeleton, &whiteSkeleton };
+	for (auto* enemy : enemies)
+	{
+		enemy->setWalls(&walls);
+	}
 	CollisionDebug collisionDebug;
 
 	while (window.isOpen())
@@ -138,21 +143,29 @@ void Game::run()
 		}
 		fpsCounter++;
 
-		DefineGUI(lastKnownFps, player.isHittingWall());
+		DefineGUI(lastKnownFps, player.isHittingWall(), collisionDebug.isEnabled());
 
 		INPUT_MAN.Update();
 
 		sf::Time dt = updateClock.restart();
 
-		player.update(dt.asSeconds());
+		std::vector<CollisionsData> enemyHitboxes;
+		for (const auto* enemy : enemies)
+		{
+			enemyHitboxes.push_back(enemy->getCurrentHitbox());
+		}
+		player.update(dt.asSeconds(), enemyHitboxes);
 
-		// Update enemies with the player's position and the hitboxes of other enemies
-		golem.update(dt.asSeconds(), player.getPosition(), { bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
-		orangeGolem.update(dt.asSeconds(), player.getPosition(), { bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
-		mushroom.update(dt.asSeconds(), player.getPosition(), { bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
-		bat.update(dt.asSeconds(), player.getPosition(), { golem.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
-		yellowSkeleton.update(dt.asSeconds(), player.getPosition(), { golem.getCurrentHitbox(), bat.getCurrentHitbox(), whiteSkeleton.getCurrentHitbox() });
-		whiteSkeleton.update(dt.asSeconds(), player.getPosition(), { golem.getCurrentHitbox(), bat.getCurrentHitbox(), yellowSkeleton.getCurrentHitbox() });
+		for (auto* enemy : enemies)
+		{
+			std::vector<CollisionsData> blockingHitboxes{ player.getCurrentHitbox() };
+			for (const auto* other : enemies)
+			{
+				if (other != enemy)
+					blockingHitboxes.push_back(other->getCurrentHitbox());
+			}
+			enemy->update(dt.asSeconds(), player.getPosition(), blockingHitboxes);
+		}
 		GraphicsManager::GetInstance().update(dt.asSeconds());
 
 		window.clear();

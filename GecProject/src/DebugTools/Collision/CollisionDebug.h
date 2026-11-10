@@ -10,6 +10,8 @@ public:
 	explicit CollisionDebug(sf::Keyboard::Key toggleKey = sf::Keyboard::Key::F1)
 		: m_toggleKey(toggleKey) {}
 
+	bool isEnabled() const { return m_enabled; }
+
 	void handleEvent(const sf::Event& event)
 	{
 		if (const auto* pressed = event.getIf<sf::Event::KeyPressed>())
