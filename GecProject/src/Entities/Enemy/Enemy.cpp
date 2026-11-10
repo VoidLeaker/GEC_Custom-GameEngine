@@ -32,21 +32,6 @@ CollisionsData Enemy::getHitbox(float x, float y) const
     return CollisionsData(x + m_hitbox.m_posX, y + m_hitbox.m_posY, m_hitbox.m_width, m_hitbox.m_height);
 }
 
-bool Enemy::isBlocked(float x, float y, const std::vector<CollisionsData>& blockingHitboxes) const
-{
-    const CollisionsData hitbox = getHitbox(x, y);
-    for (const auto& otherHitbox : blockingHitboxes)
-    {
-        if (hitbox.intersection(otherHitbox))
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-
 void Enemy::update(float dtSeconds, const GraphicsManager::Vec2& playerPosition, const std::vector<CollisionsData>& blockingHitboxes)
 {
     auto& gm = GraphicsManager::GetInstance();
@@ -75,17 +60,26 @@ void Enemy::update(float dtSeconds, const GraphicsManager::Vec2& playerPosition,
         m_velocity = GraphicsManager::Vec2{ 0.f, 0.f };
     }
 
-    const float newX = m_position.x + m_velocity.x * dtSeconds;
-    if (!isBlocked(newX, m_position.y, blockingHitboxes))
+    m_hitWall = false;
+    float moveX = m_velocity.x * dtSeconds;
+    if (m_walls)
     {
-        m_position.x = newX;
+        const float limitedX = getCurrentHitbox().limitMovement(moveX, true, *m_walls);
+        m_hitWall = limitedX != moveX;
+        moveX = limitedX;
     }
+    moveX = getCurrentHitbox().limitMovement(moveX, true, blockingHitboxes);
+    m_position.x += moveX;
 
-    const float newY = m_position.y + m_velocity.y * dtSeconds;
-    if (!isBlocked(m_position.x, newY, blockingHitboxes))
+    float moveY = m_velocity.y * dtSeconds;
+    if (m_walls)
     {
-        m_position.y = newY;
+        const float limitedY = getCurrentHitbox().limitMovement(moveY, false, *m_walls);
+        m_hitWall = m_hitWall || limitedY != moveY;
+        moveY = limitedY;
     }
+    moveY = getCurrentHitbox().limitMovement(moveY, false, blockingHitboxes);
+    m_position.y += moveY;
 
     gm.setFlipped(m_spriteId, m_facingLeft);
     gm.setPosition(m_spriteId, m_position);

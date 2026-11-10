@@ -92,44 +92,29 @@ CollisionsData Player::getHitbox(float x, float y) const
     return CollisionsData(x + offsetX, y + offsetY, width, height);
 }
 
-bool Player::isBlocked(float x, float y) const
+void Player::update(float dtSeconds, const std::vector<CollisionsData>& blockingHitboxes)
 {
-    if (!m_walls)
-        return false;
-
-    CollisionsData hitbox = getHitbox(x, y);
-    for (const auto& wall : *m_walls)
-    {
-        if (hitbox.intersection(wall))
-            return true;
-    }
-    return false;
-}
-
-void Player::update(float dtSeconds)
-{
-
     m_hitWall = false;
 
-    float newX = m_position.x + m_velocity.x * dtSeconds;
-    if (!isBlocked(newX, m_position.y))
+    float moveX = m_velocity.x * dtSeconds;
+    if (m_walls)
     {
-        m_position.x = newX;
+        const float limitedX = getCurrentHitbox().limitMovement(moveX, true, *m_walls);
+        m_hitWall = limitedX != moveX;
+        moveX = limitedX;
     }
-    else
-    {
-        m_hitWall = true;
-    }
+    moveX = getCurrentHitbox().limitMovement(moveX, true, blockingHitboxes);
+    m_position.x += moveX;
 
-    float newY = m_position.y + m_velocity.y * dtSeconds;
-    if (!isBlocked(m_position.x, newY))
+    float moveY = m_velocity.y * dtSeconds;
+    if (m_walls)
     {
-        m_position.y = newY;
+        const float limitedY = getCurrentHitbox().limitMovement(moveY, false, *m_walls);
+        m_hitWall = m_hitWall || limitedY != moveY;
+        moveY = limitedY;
     }
-    else
-    {
-        m_hitWall = true;
-    }
+    moveY = getCurrentHitbox().limitMovement(moveY, false, blockingHitboxes);
+    m_position.y += moveY;
     auto& gm = GraphicsManager::GetInstance();
 
     std::string desiredAnimation = "idle";

@@ -60,9 +60,6 @@
     <ClCompile Include="src\Entities\EntityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameData\CollisionsData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Entities\Enemy\Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -70,9 +67,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Entities\Projectiles\BaseProjectiles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DebugTools\Collision\CollisionDebug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,7 +119,7 @@
     <ClInclude Include="src\Entities\Projectiles\BaseProjectiles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameData\ResolutionAdjuster.h">
+    <ClInclude Include="src\GameData\Video-Data\ResolutionAdjuster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DebugTools\Collision\CollisionDebug.h">

@@ -137,11 +137,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\DebugTools\Collision\CollisionDebug.cpp" />
     <ClCompile Include="src\Entities\Projectiles\BaseProjectiles.cpp" />
     <ClCompile Include="src\Entities\Entity.cpp" />
     <ClCompile Include="src\Entities\Enemy\Enemy.cpp" />
-    <ClCompile Include="src\GameData\CollisionsData.cpp" />
     <ClCompile Include="src\Entities\EntityManager.cpp" />
     <ClCompile Include="src\Entities\Player\Player.cpp" />
     <ClCompile Include="src\Graphics\Animation\AnimationManager.cpp" />
@@ -167,7 +165,7 @@
     <ClInclude Include="src\Entities\Player\Player.h" />
     <ClInclude Include="src\GameData\SpritesRelated\AnimatedSetData.h" />
     <ClInclude Include="src\GameData\EntityComponent.h" />
-    <ClInclude Include="src\GameData\ResolutionAdjuster.h" />
+    <ClInclude Include="src\GameData\Video-Data\ResolutionAdjuster.h" />
     <ClInclude Include="src\Graphics\Animation\AnimationManager.h" />
     <ClInclude Include="src\Misc\ExternalHeaders.h" />
     <ClInclude Include="src\Game\Game.h" />
