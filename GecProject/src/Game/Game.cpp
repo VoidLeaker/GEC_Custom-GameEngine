@@ -3,6 +3,7 @@
 #include "../DebugTools/Collision/CollisionDebug.h"
 #include "../GameData/SpritesRelated/AnimatedSetData.h"
 #include "../Misc/ExternalHeaders.h"
+#include "../Entities/Projectiles/BaseProjectiles.h"
 
 namespace
 {
@@ -74,7 +75,35 @@ void Game::run()
 		return;
 	}
 
+	// Fireball projectile: 5 frames of 64x32 in a 320x32 sheet
+	{
+		auto& gm = GraphicsManager::GetInstance();
+		if (!gm.loadTexture("fireball", "Assets/Textures/Projectiles/Proj_Fireball/FireballSpritesheet.png"))
+		{
+			ImGui::SFML::Shutdown();
+			return;
+		}
+		AnimatedSetData fireballSet;
+		fireballSet.textureName = "fireball";
+		fireballSet.numFrames = 5;
+		fireballSet.frameWidth = 64;
+		fireballSet.frameHeight = 32;
+		fireballSet.frameSeconds = 0.10f;
+		fireballSet.isHorizontal = true;
+		fireballSet.isLoop = true;
+		gm.addAnimationSet("fireball", fireballSet);
+	}
+
 	Player player;
+
+	// Static projectiles drawn on the map to showcase the entity (no movement/damage yet)
+	const CollisionsData fireballHitbox{ 34.f, 6.f, 20.f, 20.f, CollisionsData::Shape::Circle };
+	std::vector<std::unique_ptr<BaseProjectiles>> projectiles;
+	for (const GraphicsManager::Vec2 pos : { GraphicsManager::Vec2{ 100.f, 50.f }, GraphicsManager::Vec2{ 450.f, 500.f }, GraphicsManager::Vec2{ 650.f, 250.f } })
+	{
+		projectiles.push_back(std::make_unique<BaseProjectiles>("fireball", fireballHitbox));
+		projectiles.back()->setPosition(pos);
+	}
 
 	// Set up enemies with their respective hitboxes (x, y, width, height)
 	Enemy golem("bluegolem_walk", { 26.f, 24.f, 36.f, 40.f });
@@ -166,6 +195,17 @@ void Game::run()
 			}
 			enemy->update(dt.asSeconds(), player.getPosition(), blockingHitboxes);
 		}
+		// Projectiles destroy themselves on contact with an enemy
+		std::erase_if(projectiles, [&enemies](const std::unique_ptr<BaseProjectiles>& projectile)
+		{
+			for (const auto* enemy : enemies)
+			{
+				if (projectile->collidesWith(enemy->getCurrentHitbox()))
+					return true;
+			}
+			return false;
+		});
+
 		GraphicsManager::GetInstance().update(dt.asSeconds());
 
 		window.clear();
@@ -198,6 +238,10 @@ void Game::run()
 		collisionDebug.draw(window, whiteSkeleton.getCurrentHitbox(), sf::Color::Red);
 		collisionDebug.draw(window, mushroom.getCurrentHitbox(), sf::Color::Red);
 		collisionDebug.draw(window, orangeGolem.getCurrentHitbox(), sf::Color::Red);
+		for (const auto& projectile : projectiles)
+		{
+			collisionDebug.draw(window, projectile->getCurrentHitbox(), sf::Color::Yellow);
+		}
 		for (const auto& wall : walls)
 		{
 			collisionDebug.draw(window, wall, sf::Color::Red);
