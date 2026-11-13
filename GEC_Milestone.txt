@@ -140,6 +140,8 @@ Notes
 - Might add a god mode that will allowed me to spawn enemies or increase health to test limits.
 - Need to add other types of projectiles such as swords, arrows, etc. with weapon icons
 - Will add a type of collision that just passes through as some projectiles would have piercing attack
+- Will add props soon to the game that can provide items to the player such as food to regain health, magnet and an item that will clear enemies
+- Would add different types of characters with their own weapon and stats
 - Need to change about the player and enemy as the player can't move out away from the enemies when the player is surrounded
 - Need to fix collisions overlapping that will merged into one
 - Need to fix circle colliders to be consistent like box collider
