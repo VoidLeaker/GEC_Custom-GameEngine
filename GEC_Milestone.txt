@@ -16,7 +16,6 @@ Code Additions
 	- Default animation is idle
 	- Attack animation is attack
 	- Walk animation is walk
- https://opengameart.org/content/grass-pixel-art
 Tests
 -----
 
@@ -83,25 +82,64 @@ Notes
 - Will encapsulate window and ImGui into the graphic system soon
 - Will move all my simulations into the game files
 
-Milestone 3 <version> and <date>
+Milestone 3 Patch 0.1.1 to 0.1.6 and November 13th 2026
 --------------------------------
 
 New Functionality
 -----------------
 
-< A list of additional functionality in this release aimed at the user e.g. "Control of the player craft via the XBox controller".>
+- Added weapons that will fire projectiles on their own like from Vampire survivor genre
+	- Although, the projectile is a showcase for now
+		- Will be added in later patches that projectiles will be fired
+- Added a pause input that will allowed the player to pause the game if something is interrupting them.
+	- More about the pause input on debug tools
 
 Code Additions
 --------------
 
-< A list of major additions e.g. classes, functions > 
+- Added a debug tools:
+	- Collision debug will allow me to check collision without guessing their transformations
+	- Pause input have another purpose allow us to pause the world to inspect various of components such as collision measurements, overlapping layers, etc.
+		- This saves a lot of time like I tested the enemies collision as they overlapped each other including the sprites.
+- Added collisions to entities between players, walls, enemies and projectiles
+- Added two new types of collider
+	- Box Collider: a square to rectangle collider that will detects the intersection of the point
+	- Circle Collider: a circle collider that will detects from the centre of the radius
+- Added projectiles, but only fire ball for now
+	- This projectile to showcase when the enemy collides to the projectile that will destroy it self
+		- Will add damages, health and velocity soon
+- Added Entities files:
+	- Refactored the code that all similar functions into one parent class
+		- Update the player now holds input logic and animations corresponding to the input
+		- Update the enemy now holds following the player
+		- Update the base projectiles only has constructor but will add velocity and damage soon
+	- Added entity components but simpler for now as I'll add other components in later developments
+	- Added Entity manager that will handle all entities when creates, stores and deletes entity.
 
 Tests
 -----
 
-< A list of tests you have done to prove the milestone requirements have been met e.g. a stress test may be done where you try extreme values for things. e.g. render 1,000 sprites all at the same time.>
+- Testing collision for enemies to get contact with walls
+	- It works as enemies can now get stuck if the player is behind the wall
+- Testing collision with multiple enemies does worked but enemies overlaps causing the collision and sprites to merged
+	- This includes the circle but it works as the enemies contacting to projectiles (circle collider) does destroy itself
+		- However, this must be fixed in the later developments
+- Testing circle collider to bat, it works but inconsistent
+	- There are times that I can go past through them depending, where is the bat position when following the player
+		- A minor bug, so this will be added to list of bug I must fix
+- The debug tool for collision also worked as now I can see where the collision locations
+	- This lead me to fixed the position of the collision like the golems and mushroom enemies
+- When enemies contacting to the projectile to destroy itself did worked
+	- As the projectiles disappeared to the game
 
 Notes
 -----
 
-<short notes on things left to do, issues and observations about possible future changes etc.>
+- Need to add more debug such as line-of-sight. 
+- Need to add props that will give health or magnets.
+- Might add a god mode that will allowed me to spawn enemies or increase health to test limits.
+- Need to add other types of projectiles such as swords, arrows, etc. with weapon icons
+- Will add a type of collision that just passes through as some projectiles would have piercing attack
+- Need to change about the player and enemy as the player can't move out away from the enemies when the player is surrounded
+- Need to fix collisions overlapping that will merged into one
+- Need to fix circle colliders to be consistent like box collider
