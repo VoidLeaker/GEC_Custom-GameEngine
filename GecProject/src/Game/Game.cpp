@@ -25,7 +25,7 @@ namespace
 		return true;
 	}
 
-	void DefineGUI(int fps, bool hitWall, bool collisionDebugEnabled)
+	void DefineGUI(int fps, bool hitWall, bool collisionDebugEnabled, bool& paused)
 	{
 		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
@@ -33,6 +33,16 @@ namespace
 		ImGui::Text("Milestone 2 Testing");
 		ImGui::Separator();
 		ImGui::Text("Stable FramePerSecond: %d", fps);
+
+		if (ImGui::Button(paused ? "Resume (P)" : "Pause (P)"))
+		{
+			paused = !paused;
+		}
+		if (paused)
+		{
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.f, 0.8f, 0.2f, 1.f), "PAUSED");
+		}
 
 		if (collisionDebugEnabled && hitWall)
 		{
@@ -148,6 +158,7 @@ void Game::run()
 		enemy->setWalls(&walls);
 	}
 	CollisionDebug collisionDebug;
+	bool paused = false;
 
 	while (window.isOpen())
 	{
@@ -155,6 +166,14 @@ void Game::run()
 		{
 			ImGui::SFML::ProcessEvent(window, event.value());
 			collisionDebug.handleEvent(event.value());
+
+			if (const auto* key = event->getIf<sf::Event::KeyPressed>())
+			{
+				if (key->code == sf::Keyboard::Key::P)
+				{
+					paused = !paused;
+				}
+			}
 
 			if (event->is<sf::Event::Closed>())
 			{
@@ -172,11 +191,13 @@ void Game::run()
 		}
 		fpsCounter++;
 
-		DefineGUI(lastKnownFps, player.isHittingWall(), collisionDebug.isEnabled());
+		DefineGUI(lastKnownFps, player.isHittingWall(), collisionDebug.isEnabled(), paused);
 
+		const sf::Time dt = updateClock.restart();
+
+		if (!paused)
+		{
 		INPUT_MAN.Update();
-
-		sf::Time dt = updateClock.restart();
 
 		std::vector<CollisionsData> enemyHitboxes;
 		for (const auto* enemy : enemies)
@@ -207,6 +228,7 @@ void Game::run()
 		});
 
 		GraphicsManager::GetInstance().update(dt.asSeconds());
+		}
 
 		window.clear();
 		if (backgroundSprite)
