@@ -4,7 +4,9 @@
 #include "../src/GameData/SpritesRelated/AnimatedSetData.h"
 
 Player::Player()
+    : Entity(0, CollisionsData(48.f, 24.f, 32.f, 36.f))
 {
+    m_position.position = GraphicsManager::Vec2{ 100.f, 100.f };
     INPUT_MAN.addListener(this);
 
     auto& gm = GraphicsManager::GetInstance();
@@ -33,16 +35,13 @@ Player::Player()
     gm.addAnimationSet("idle", idleSet);
     gm.addAnimationSet("walk", walkSet);
 
-    m_spriteId = gm.createSprite("idle");
-    gm.setPosition(m_spriteId, m_position);
-    gm.setAnimation(m_spriteId, "idle");
+    createSprite("idle");
+    gm.setAnimation(m_sprite.spriteId, "idle");
 }
 
 Player::~Player()
 {
     INPUT_MAN.removeListener(this);
-    if (m_spriteId != 0)
-        GraphicsManager::GetInstance().destroySprite(m_spriteId);
 }
 
 void Player::handleInput(InputAction action)
@@ -50,76 +49,37 @@ void Player::handleInput(InputAction action)
     switch (action)
     {
     case InputAction::eMoveUp:
-        m_velocity.y = -m_speed;
+        m_velocity.velocity.y = -m_speed;
         break;
     case InputAction::eMoveDown:
-        m_velocity.y = m_speed;
+        m_velocity.velocity.y = m_speed;
         break;
     case InputAction::eMoveLeft:
-        m_velocity.x = -m_speed;
-        m_facingLeft = true;
+        m_velocity.velocity.x = -m_speed;
+        m_sprite.facingLeft = true;
         break;
     case InputAction::eMoveRight:
-        m_velocity.x = m_speed;
-        m_facingLeft = false;
+        m_velocity.velocity.x = m_speed;
+        m_sprite.facingLeft = false;
         break;
     case InputAction::eLeftMouseClick:
     case InputAction::eNone:
     case InputAction::ePause:
     case InputAction::eRightMouseClick:
     default:
-        m_velocity = GraphicsManager::Vec2{ 0.f, 0.f };
+        m_velocity.velocity = GraphicsManager::Vec2{ 0.f, 0.f };
         break;
     }
 }
 
-void Player::setPosition(const GraphicsManager::Vec2& pos)
-{
-    m_position = pos;
-}
-
-GraphicsManager::Vec2 Player::getPosition() const
-{
-    return m_position;
-}
-
-CollisionsData Player::getHitbox(float x, float y) const
-{
-    constexpr float offsetX = 48.f;
-    constexpr float offsetY = 24.f;
-    constexpr float width = 32.f;
-    constexpr float height = 36.f;
-    return CollisionsData(x + offsetX, y + offsetY, width, height);
-}
-
 void Player::update(float dtSeconds, const std::vector<CollisionsData>& blockingHitboxes)
 {
-    m_hitWall = false;
-
-    float moveX = m_velocity.x * dtSeconds;
-    if (m_walls)
-    {
-        const float limitedX = getCurrentHitbox().limitMovement(moveX, true, *m_walls);
-        m_hitWall = limitedX != moveX;
-        moveX = limitedX;
-    }
-    moveX = getCurrentHitbox().limitMovement(moveX, true, blockingHitboxes);
-    m_position.x += moveX;
-
-    float moveY = m_velocity.y * dtSeconds;
-    if (m_walls)
-    {
-        const float limitedY = getCurrentHitbox().limitMovement(moveY, false, *m_walls);
-        m_hitWall = m_hitWall || limitedY != moveY;
-        moveY = limitedY;
-    }
-    moveY = getCurrentHitbox().limitMovement(moveY, false, blockingHitboxes);
-    m_position.y += moveY;
+    moveWithCollisions(dtSeconds, blockingHitboxes);
     auto& gm = GraphicsManager::GetInstance();
 
     std::string desiredAnimation = "idle";
 
-    if (m_velocity.x != 0.f || m_velocity.y != 0.f)
+    if (m_velocity.velocity.x != 0.f || m_velocity.velocity.y != 0.f)
     {
         desiredAnimation = "walk";
     }
@@ -127,9 +87,8 @@ void Player::update(float dtSeconds, const std::vector<CollisionsData>& blocking
     if (desiredAnimation != m_currentAnimation)
     {
         m_currentAnimation = desiredAnimation;
-        gm.setAnimation(m_spriteId, desiredAnimation);
+        gm.setAnimation(m_sprite.spriteId, desiredAnimation);
     }
 
-    gm.setFlipped(m_spriteId, m_facingLeft);
-    gm.setPosition(m_spriteId, m_position);
+    syncSprite();
 }

@@ -1,19 +1,21 @@
 #pragma once
-#include <SFML/Graphics.hpp>
+#include "../Graphics/GraphicsManager.h"
+#include "CollisionsData.h"
 
 struct PositionComponent
 {
-	sf::Vector2f position{ 0.f, 0.f };
+	GraphicsManager::Vec2 position{ 0.f, 0.f };
 };
 
 struct VelocityComponent
 {
-	sf::Vector2f velocity{ 0.f, 0.f };
+	GraphicsManager::Vec2 velocity{ 0.f, 0.f };
+	float speed{ 0.f };
 };
 
 struct ScaleComponent
 {
-	sf::Vector2f scale{ 1.f, 1.f };
+	GraphicsManager::Vec2 scale{ 1.f, 1.f };
 };
 
 struct RotationComponent
@@ -25,4 +27,15 @@ struct HealthComponent
 {
 	int maxhealth{ 100 };
 	int currenthealth{ 100 };
+};
+
+struct HitboxComponent
+{
+	CollisionsData localHitbox;
+};
+
+struct SpriteComponent
+{
+	GraphicsManager::SpriteId spriteId{ 0 };
+	bool facingLeft{ false };
 };
