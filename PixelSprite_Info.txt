@@ -1,6 +1,9 @@
-Pixel Sprite info (all walking animations):
+Pixel Sprite info (all walking animations)
+This contains all information about our assets without needing to calculate mathematics
 
 Width x Height pixels
+
+Player characters:
 
 Monster/Enemies:
 Mushroom - 80 x 64 pixels
@@ -10,3 +13,5 @@ Skeletons - 96 x 64 pixels
 
 Projectiles:
 Fireball: 64 x 32 pixels
+SpinSlash: 366 x 216 pixels
+Normal Arrow: 32 x 8 pixels
