@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\DebugTools\SpawnEnemy\SpawnEnemy.cpp" />
     <ClCompile Include="src\Entities\Props\BaseProp.cpp" />
     <ClCompile Include="src\Entities\Chest\Chest.cpp" />
     <ClCompile Include="src\DebugTools\DebugInput.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="src\Graphics\Texture\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\DebugTools\SpawnEnemy\SpawnEnemy.h" />
     <ClInclude Include="src\Entities\Props\BaseProp.h" />
     <ClInclude Include="src\Entities\Chest\Chest.h" />
     <ClInclude Include="src\DebugTools\DebugInput.h" />

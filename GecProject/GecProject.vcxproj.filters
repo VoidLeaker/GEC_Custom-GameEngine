@@ -87,6 +87,9 @@
     <ClCompile Include="src\Entities\Chest\Chest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DebugTools\SpawnEnemy\SpawnEnemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Misc\ExternalHeaders.h">
@@ -156,6 +159,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Entities\Chest\Chest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DebugTools\SpawnEnemy\SpawnEnemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
