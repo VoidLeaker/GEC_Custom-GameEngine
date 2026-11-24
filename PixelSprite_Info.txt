@@ -4,6 +4,7 @@ This contains all information about our assets without needing to calculate math
 Width x Height pixels
 
 Player characters:
+Knight: 128 x 64 pixels
 
 Monster/Enemies:
 Mushroom - 80 x 64 pixels
