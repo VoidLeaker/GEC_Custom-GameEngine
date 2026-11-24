@@ -137,6 +137,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Entities\Props\BaseProp.cpp" />
+    <ClCompile Include="src\Entities\Chest\Chest.cpp" />
+    <ClCompile Include="src\DebugTools\DebugInput.cpp" />
     <ClCompile Include="src\Colliders\BoxCollider.cpp" />
     <ClCompile Include="src\Colliders\CircleCollider.cpp" />
     <ClCompile Include="src\Entities\Projectiles\BaseProjectiles.cpp" />
@@ -159,6 +162,9 @@
     <ClCompile Include="src\Graphics\Texture\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Entities\Props\BaseProp.h" />
+    <ClInclude Include="src\Entities\Chest\Chest.h" />
+    <ClInclude Include="src\DebugTools\DebugInput.h" />
     <ClInclude Include="src\Colliders\CircleCollider.h" />
     <ClInclude Include="src\Colliders\BoxCollider.h" />
     <ClInclude Include="src\DebugTools\Collision\CollisionDebug.h" />

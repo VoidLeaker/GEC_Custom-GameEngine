@@ -14,6 +14,7 @@ void InputManager::removeListener(IReceiveInput* listener)
     m_listeners.erase(std::remove(m_listeners.begin(), m_listeners.end(), listener), m_listeners.end());
 }
 
+// Updates all listeners with the current input state. This method should be called once per frame.
 void InputManager::Update()
 {
     InputAction action = InputAction::eNone;

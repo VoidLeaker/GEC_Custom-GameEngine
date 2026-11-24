@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 
+// Enemy entity. Moves towards the player and has a sprite and hitbox. Can collide with walls and other entities.
 class Enemy : public Entity
 {
 public:

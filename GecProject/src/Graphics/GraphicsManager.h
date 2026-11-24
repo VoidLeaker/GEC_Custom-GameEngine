@@ -8,6 +8,8 @@ namespace sf { class RenderWindow; }
 struct AnimatedSetData;
 struct Vec2 { float x{ 0.f }; float y{ 0.f }; };
 
+// GraphicsManager is a singleton class that manages textures, animated sprite sets, and individual sprites. 
+// It provides methods to load textures, create and destroy sprites, set sprite properties (position, flipped state, animation), and update/draw all sprites.
 class GraphicsManager
 {
 public:
@@ -41,6 +43,7 @@ private:
     GraphicsManager(const GraphicsManager&) = delete;
     GraphicsManager& operator=(const GraphicsManager&) = delete;
 
+	// Private implementation details hidden using the Pimpl idiom. The actual data members and implementation are defined in the source file (GraphicsManager.cpp).
     struct priv;
     std::unique_ptr<priv> privData;
 };

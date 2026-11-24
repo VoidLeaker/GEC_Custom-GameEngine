@@ -5,6 +5,9 @@
 #include "../Colliders/BoxCollider.h"
 #include "../Colliders/CircleCollider.h"
 
+// Holds the data for a hitbox or collision shape, including its position, size, and shape type (box or circle). 
+// Provides methods for checking intersection with other collision shapes and limiting movement based on obstacles.
+
 class CollisionsData
 {
 public:
@@ -24,6 +27,7 @@ public:
 
 	static CollisionsData makeCircle(float centreX, float centreY, float radius);
 
+	// Converts to a BoxCollider or CircleCollider for collision detection.
 	BoxCollider toBox() const;
 	CircleCollider toCircle() const;
 

@@ -11,6 +11,7 @@
 
 struct GraphicsManager::priv
 {
+	// Represents a single animation instance, including its definition, associated texture, current frame, and timer for frame updates.
     struct AnimInstance
     {
         const AnimatedSetData* def = nullptr;
@@ -19,6 +20,7 @@ struct GraphicsManager::priv
         float timer = 0.f;
     };
 
+	// Represents a single sprite instance, including its SFML sprite, associated animations, and the current animation being played.
     struct SpriteInstance
     {
         sf::Sprite sprite;

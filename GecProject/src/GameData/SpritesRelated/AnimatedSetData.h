@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+// Holds the data for an animated sprite set, including the texture name, number of frames, frame dimensions, frame duration, and whether the animation is horizontal and loops.
+
 struct AnimatedSetData
 {
 	std::string textureName;

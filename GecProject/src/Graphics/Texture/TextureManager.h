@@ -5,6 +5,7 @@
 
 namespace sf { class Texture; }
 
+// Singleton class that manages textures. It allows loading and retrieving textures by name.
 class TextureManager
 {
 public:

@@ -9,5 +9,8 @@ class BaseProjectiles : public Entity
 public:
 	BaseProjectiles(const std::string& animation, const CollisionsData& hitbox);
 	~BaseProjectiles() override = default;
+
+private:
+
 };
 

@@ -2,6 +2,9 @@
 #include "../Graphics/GraphicsManager.h"
 #include "CollisionsData.h"
 
+// Components used by entities. 
+// Each component holds data related to a specific aspect of an entity, such as position, velocity, scale, rotation, health, damage, hitbox, and sprite.
+
 struct PositionComponent
 {
 	GraphicsManager::Vec2 position{ 0.f, 0.f };
@@ -27,6 +30,11 @@ struct HealthComponent
 {
 	int maxhealth{ 100 };
 	int currenthealth{ 100 };
+};
+
+struct DamageComponent
+{
+	int amount{ 0 };
 };
 
 struct HitboxComponent

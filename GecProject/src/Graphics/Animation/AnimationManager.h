@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <memory>
 
+// Singleton class that manages animation sets. It allows adding and retrieving animation sets by name.
 class AnimationManager
 {
 public:

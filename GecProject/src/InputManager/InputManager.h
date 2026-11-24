@@ -3,6 +3,8 @@
 #include "../InputManager/InputListener/IReceiveInput.h"
 #include <vector>
 
+// Singleton class that manages input listeners and updates them based on user input.
+
 class InputManager
 {
 public:

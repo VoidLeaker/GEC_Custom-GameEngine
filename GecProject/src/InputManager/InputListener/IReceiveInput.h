@@ -1,5 +1,7 @@
 #pragma once
 
+// Input actions that can be received by input listeners. 
+// These actions represent user input events such as movement, mouse clicks, and pause.
 enum class InputAction
 {
     eMoveUp,

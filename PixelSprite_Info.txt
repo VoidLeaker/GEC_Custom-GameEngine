@@ -14,5 +14,11 @@ Skeletons - 96 x 64 pixels
 
 Projectiles:
 Fireball: 64 x 32 pixels
-SpinSlash: 366 x 216 pixels
+Sword spin slash: 366 x 216 pixels
 Normal Arrow: 32 x 8 pixels
+Lightning (Blue): 512 x 512 pixels
+
+Objects:
+Chest: 24 x 24 pixels
+Chicken: 32 x 32 pixels
+Barrel: 16 x 16 pixels

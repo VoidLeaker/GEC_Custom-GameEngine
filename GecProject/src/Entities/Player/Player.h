@@ -7,6 +7,9 @@
 #include <string>
 #include <vector>
 
+// Player entity. Can be controlled by the player and has a sprite and hitbox.
+// The player can move around and collide with walls and other entities.
+
 class Player : public Entity, public IReceiveInput
 {
 public:
